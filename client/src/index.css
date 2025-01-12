@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #242424;  /* Default background color */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,10 +24,11 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
+  display: block;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background: linear-gradient(to bottom right, #242424, #3e3e3e);  /* Gradient added */
 }
 
 h1 {
@@ -56,6 +57,7 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
+    height: 100%;
     color: #213547;
     background-color: #ffffff;
   }

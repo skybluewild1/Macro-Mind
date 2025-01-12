@@ -1,0 +1,64 @@
+/* General styles for the dashboard container */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #3e3e3e, #242424);
+    color: white;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .dashboard-title {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .user-card {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  }
+  
+  .greeting {
+    font-size: 2em;
+    margin: 10px 0;
+  }
+  
+  .user-info {
+    font-size: 1.2em;
+    color: #aaa;
+    margin-top: 10px;
+  }
+  
+  .no-user {
+    font-size: 1.5em;
+    color: #e0e0e0;
+    text-align: center;
+  }
+  
+  /* Hover effects for user card */
+  .user-card:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  @media (max-width: 768px) {
+    .dashboard-title {
+      font-size: 2em;
+    }
+  
+    .user-card {
+      width: 90%;
+      padding: 15px;
+    }
+  }
+  
