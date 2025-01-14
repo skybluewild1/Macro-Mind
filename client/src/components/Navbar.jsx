@@ -7,6 +7,8 @@ export default function Navbar() {
       <Link to="/" className="nav-link">Home</Link>
       <Link to="/Register" className="nav-link">Register</Link>
       <Link to="/Login" className="nav-link">Login</Link>
+      <Link to="/dashboard" className="nav-link">Dashboard</Link>
+      <Link to="/muscle-model" className="nav-link">Muscle Model</Link>
     </nav>
   );
 }

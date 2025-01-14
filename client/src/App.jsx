@@ -8,7 +8,7 @@ import axios from 'axios';
 import {Toaster} from 'react-hot-toast'
 import { UserContextProvider } from '../context/userContext';
 import Dashboard from './pages/Dashboard';
-
+import MuscleModel from './muscleModel/MuscleModel';
 axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = true;
 //creates the routes to the pages
@@ -22,6 +22,7 @@ function App() {
        <Route path='/register' element = {<Register />} />
        <Route path='/login' element = {<Login />} />
        <Route path='/dashboard' element = {<Dashboard />} />
+       <Route path="/muscle-model" element={<MuscleModel />} />
       </Routes>   
     </UserContextProvider>
   )

@@ -1,0 +1,29 @@
+.muscle-container {
+    position: relative;
+    width: 800px;
+    margin: auto;
+  }
+  
+  .anatomy-image {
+    width: 100%;
+  }
+  
+  .muscle-region {
+    position: absolute;
+    background-color: rgba(0, 0, 255, 0.3);
+    border: 1px solid blue;
+    cursor: pointer;
+  }
+  
+  .muscle-region:hover {
+    background-color: rgba(0, 255, 0, 0.5);
+  }
+  
+  .muscle-info {
+    margin-top: 20px;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
