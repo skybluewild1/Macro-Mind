@@ -9,6 +9,8 @@ export default function Navbar() {
       <Link to="/Login" className="nav-link">Login</Link>
       <Link to="/dashboard" className="nav-link">Dashboard</Link>
       <Link to="/muscle-model" className="nav-link">Muscle Model</Link>
+      <Link to="/motivation" className="nav-link">Motivation</Link>
+      
     </nav>
   );
 }

@@ -16,7 +16,7 @@ const MuscleModel = () => {
 
   return (
     <div className="muscle-container">
-      <h1>Interactive Muscle Model</h1>
+      <h1></h1>
       {/* Display your anatomy image */}
       <div className="image-wrapper">
         <img src="/anatomyM.png" alt="Anatomy" className="anatomy-image" />
