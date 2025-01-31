@@ -6,8 +6,11 @@ const jwt = require('jsonwebtoken');
 const test = (req, res) => {
     res.json('test is working')
 }
-
-
+//check if the password has special characters
+function hasSpecialChar (password) {
+    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    return specialCharRegex.test(password);
+}
 //register endpoint
 const registerUser = async (req, res) => {
     try {
@@ -19,11 +22,12 @@ const registerUser = async (req, res) => {
             })
         };
         //check if password is good
-        if(!password || password.length < 6) {
+        if(!password || password.length < 10) {
             return res.json({
-                error: 'Password is required and should be atleast 6 characters long'
+                error: 'Password is required and should be atleast 10 characters long'
             })
         };
+
         //check email
         const exist = await User.findOne({email})
         if(exist) {
@@ -31,7 +35,16 @@ const registerUser = async (req, res) => {
                 error: 'Email is taken already'
             })
         }
-        
+        if (!hasSpecialChar(password)) {
+            return res.json({
+                error: 'Password must have at least one of the following characters: !@#$%^&*(),.?":{}|<>'
+            })
+        };
+        if (!(/[A-Z]/.test(password) && /[a-z]/.test(password))) {
+            return res.json({
+                error: 'Password must include both upper and lowercase letters'
+            })
+        };
         const hashedPassword = await hashPassword(password)
 
         const user = await User.create({
