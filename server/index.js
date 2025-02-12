@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const dotenv = require('dotenv').config()
 const cors = require('cors')
@@ -13,6 +14,8 @@ mongoose.connect(process.env.MONGO_URL)
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({extended: false}))
+//app.use(cors());
+
 
 app.use('/', require('./routes/authRoutes'))
 app.use('/search', require('./routes/foodRoutes'));

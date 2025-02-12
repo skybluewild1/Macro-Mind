@@ -1,7 +1,6 @@
 // services/fatSecretService.js
-const axios = require('axios');
 require('dotenv').config();
-
+const axios = require('axios');
 let accessToken = null;
 let tokenExpiration = null;
 
@@ -12,6 +11,9 @@ async function getAccessToken() {
     }
 
     try {
+        //console.log('FATSECRET_CLIENT_ID:', process.env.FATSECRET_CLIENT_ID);
+       // console.log('FATSECRET_CLIENT_SECRET:', process.env.FATSECRET_CLIENT_SECRET);
+
         const response = await axios.post(process.env.FATSECRET_TOKEN_URL, 
             "grant_type=client_credentials&scope=basic",
             {
@@ -26,6 +28,7 @@ async function getAccessToken() {
         accessToken = response.data.access_token;
         tokenExpiration = Date.now() + response.data.expires_in * 1000; // Convert to ms
         console.log("🔑 New Access Token Acquired");
+        //console.log('Access Token:', accessToken);
         return accessToken;
     } catch (error) {
         console.error("❌ Error fetching access token:", error.response ? error.response.data : error.message);
@@ -35,10 +38,10 @@ async function getAccessToken() {
 
 // Function to search for food
 async function searchFood(query, foodType = "Generic", meal = "lunch") {
-    if (!isValidFoodType(foodType) || !isValidMealType(meal)) {
+    /*if (!isValidFoodType(foodType) || !isValidMealType(meal)) {
         throw new Error("Invalid foodType or meal parameter");
     }
-
+    */
     const token = await getAccessToken();
     
     try {

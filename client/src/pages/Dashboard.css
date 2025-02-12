@@ -1,64 +1,156 @@
 /* General styles for the dashboard container */
 .dashboard-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background: linear-gradient(to bottom right, #3e3e3e, #242424);
-    color: white;
-    padding: 20px;
-    font-family: 'Inter', sans-serif;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #3e3e3e, #242424);
+  color: white;
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+.dashboard-title {
+  font-size: 2.5em;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.user-card {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.greeting {
+  font-size: 2em;
+  margin: 10px 0;
+}
+
+.user-info {
+  font-size: 1.2em;
+  color: #aaa;
+  margin-top: 10px;
+}
+
+.no-user {
+  font-size: 1.5em;
+  color: #e0e0e0;
+  text-align: center;
+}
+
+/* Hover effects for user card */
+.user-card:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Food search container */
+.food-search-container {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Search title */
+.food-search-title {
+  font-size: 1.8em;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+/* Search bar container */
+.food-search-bar {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Search input */
+.food-search-input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1em;
+  background-color: #fff;
+  color: #000;
+}
+
+/* Search button */
+.food-search-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.3s ease;
+}
+
+.food-search-button:hover {
+  background-color: #0056b3;
+}
+
+/* Results list */
+.food-results {
+  margin-top: 15px;
+  list-style-type: none;
+  padding: 0;
+  text-align: left;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Individual food item */
+.food-item {
+  padding: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 1.1em;
+}
+
+/* Error message */
+.error-message {
+  color: #ff4d4d;
+  margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .dashboard-title {
-    font-size: 2.5em;
-    font-weight: 700;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .user-card {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    border-radius: 12px;
-    width: 80%;
-    max-width: 500px;
-    text-align: center;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-  }
-  
-  .greeting {
-    font-size: 2em;
-    margin: 10px 0;
-  }
-  
-  .user-info {
-    font-size: 1.2em;
-    color: #aaa;
-    margin-top: 10px;
-  }
-  
-  .no-user {
-    font-size: 1.5em;
-    color: #e0e0e0;
-    text-align: center;
-  }
-  
-  /* Hover effects for user card */
-  .user-card:hover {
-    transform: scale(1.05);
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  @media (max-width: 768px) {
-    .dashboard-title {
       font-size: 2em;
-    }
-  
-    .user-card {
+  }
+
+  .user-card {
       width: 90%;
       padding: 15px;
-    }
   }
-  
+
+  .food-search-container {
+      width: 90%;
+  }
+
+  .food-search-bar {
+      flex-direction: column;
+  }
+
+  .food-search-input {
+      width: 100%;
+  }
+
+  .food-search-button {
+      width: 100%;
+  }
+}
