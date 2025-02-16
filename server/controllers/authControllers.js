@@ -14,7 +14,21 @@ function hasSpecialChar (password) {
 //register endpoint
 const registerUser = async (req, res) => {
     try {
-        const {username,email,password} = req.body;
+        console.log("Request body:", req.body);
+        const { 
+            username, 
+            email, 
+            password, 
+            age, 
+            sex, 
+            weight, 
+            height, 
+            workoutStyle, 
+            goals, 
+            equiptment, 
+            level, 
+            diet 
+          } = req.body;
         // Check if name was entered
         if(!username) {
             return res.json({
@@ -27,14 +41,7 @@ const registerUser = async (req, res) => {
                 error: 'Password is required and should be atleast 10 characters long'
             })
         };
-
-        //check email
-        const exist = await User.findOne({email})
-        if(exist) {
-            return res.json({
-                error: 'Email is taken already'
-            })
-        }
+        
         if (!hasSpecialChar(password)) {
             return res.json({
                 error: 'Password must have at least one of the following characters: !@#$%^&*(),.?":{}|<>'
@@ -45,12 +52,30 @@ const registerUser = async (req, res) => {
                 error: 'Password must include both upper and lowercase letters'
             })
         };
+
+        //check email
+        const exist = await User.findOne({email})
+        if(exist) {
+            return res.json({
+                error: 'Email is taken already'
+            })
+        }
+        
         const hashedPassword = await hashPassword(password)
 
         const user = await User.create({
             username,
             email,
             password: hashedPassword,
+            age,
+            sex,
+            weight,
+            height,
+            workoutStyle,
+            goals,
+            equiptment,
+            level,
+            diet,
         });
 
         return res.json(user)

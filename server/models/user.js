@@ -7,7 +7,17 @@ const userSchema = new Schema({
         type: String,
         unique: true
     },
-    password: String
+    password: String,
+    age: Number,
+    sex: String,
+    weight: Number,
+    height: Number,
+    workoutStyle: [String],
+    goals: [String],
+    equipment: [String],
+    level: String,
+    diet: [String]
+
 })
 
 const userModel = mongoose.model('User', userSchema);
