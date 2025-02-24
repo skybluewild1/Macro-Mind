@@ -25,7 +25,7 @@ const registerUser = async (req, res) => {
             height, 
             workoutStyle, 
             goals, 
-            equiptment, 
+            equipment, 
             level, 
             diet 
           } = req.body;
@@ -73,7 +73,7 @@ const registerUser = async (req, res) => {
             height,
             workoutStyle,
             goals,
-            equiptment,
+            equipment,
             level,
             diet,
         });
