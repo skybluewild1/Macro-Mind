@@ -1,16 +1,30 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './Home.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../images/MacroMind.jpg"; // Adjust path
+import { UserContext } from "../../context/userContext.jsx"; 
 
 export default function Home() {
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    if (user) {
+      navigate("/dashboard");
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <div className="home-page">
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
+          <img src={logo} alt="Macro Mind Logo" className="logo-image" />
           <h1>Achieve Your Fitness Goals</h1>
           <p>Track your workouts, meals, and progress with ease.</p>
-          <button className="cta-button">Get Started</button>
+          <button className="cta-button" onClick={handleGetStarted}>Get Started</button>
         </div>
       </section>
 
