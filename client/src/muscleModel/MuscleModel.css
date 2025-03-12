@@ -2,6 +2,7 @@
     position: relative;
     width: 800px;
     margin: auto;
+    background-color: rgb(255, 255, 255);
   }
   
   .anatomy-image {
@@ -10,8 +11,8 @@
   
   .muscle-region {
     position: absolute;
-    background-color: rgba(0, 0, 255, 0.3);
-    border: 1px solid blue;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgb(255, 255, 255);
     cursor: pointer;
   }
   
@@ -21,9 +22,11 @@
   
   .muscle-info {
     margin-top: 20px;
-    background: #f9f9f9;
+    background: #ffffff;
     padding: 10px;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 5px rgba(255, 254, 254, 0.2);
   }
+
+ 
   
