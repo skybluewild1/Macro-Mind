@@ -60,7 +60,14 @@
 .btn-primary:hover {
   background-color: #ff6347;
 }
+/* About Section */
 
+.about {
+  padding: 40px 20px;
+  background: #2d2d2d;
+  text-align: center;
+  color: #ffffff;
+}
 /* Features Section */
 .features {
   padding: 80px 20px;
