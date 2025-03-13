@@ -2,7 +2,7 @@
 const cors = require('cors')
 const express = require('express');
 const router = express.Router();
-const { searchFoodController } = require('../controllers/fatSecretController');
+const { searchFoodController, getFoodDetailsController } = require('../controllers/fatSecretController');
 //middleware
 router.use(
     cors({
@@ -12,5 +12,7 @@ router.use(
 )
 // Search route
 router.get('/search', searchFoodController);
+router.get('/details', getFoodDetailsController); 
+
 
 module.exports = router;

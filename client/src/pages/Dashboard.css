@@ -45,112 +45,110 @@
   text-align: center;
 }
 
-/* Hover effects for user card */
-.user-card:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s ease-in-out;
+/* Content wrapper to separate food search and radial wheel */
+.content-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 30px;
 }
 
-/* Food search container */
+/* Food section container */
+.food-section-container {
+  width: 60%;
+}
+
+/* Radial Wheel Styles */
+.radial-slider-container {
+  width: 35%;
+  text-align: center;
+}
+
+.radial-wheel {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 10px solid rgba(255, 255, 255, 0.3);
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5));
+  margin: 0 auto;
+}
+
+.radial-wheel-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #4caf50;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.radial-wheel-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 255, 0, 0.5);
+  border-radius: 50%;
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+  transform: rotate(0deg);
+}
+
+.radial-wheel-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+
+/* Macros display styles */
+.macros-display {
+  margin-top: 10px;
+  color: #fff;
+  font-size: 1.2em;
+}
+
 .food-search-container {
-  margin-top: 20px;
   padding: 15px;
   border-radius: 12px;
   background-color: rgba(255, 255, 255, 0.1);
-  width: 80%;
-  max-width: 500px;
+  width: 100%;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Search title */
-.food-search-title {
-  font-size: 1.8em;
-  font-weight: 600;
-  margin-bottom: 15px;
-}
-
-/* Search bar container */
-.food-search-bar {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
-/* Search input */
-.food-search-input {
-  flex-grow: 1;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1em;
-  background-color: #fff;
-  color: #000;
-}
-
-/* Search button */
-.food-search-button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background 0.3s ease;
-}
-
-.food-search-button:hover {
-  background-color: #0056b3;
-}
-
-/* Results list */
-.food-results {
-  margin-top: 15px;
-  list-style-type: none;
-  padding: 0;
-  text-align: left;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-/* Individual food item */
-.food-item {
-  padding: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  font-size: 1.1em;
-}
-
-/* Error message */
-.error-message {
-  color: #ff4d4d;
-  margin-top: 10px;
-}
+/* Food search and results styles... (keep your existing styles) */
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .dashboard-title {
-      font-size: 2em;
+    font-size: 2em;
   }
 
   .user-card {
-      width: 90%;
-      padding: 15px;
+    width: 90%;
+    padding: 15px;
   }
 
-  .food-search-container {
-      width: 90%;
+  .content-wrapper {
+    flex-direction: column;
+    align-items: center;
   }
 
-  .food-search-bar {
-      flex-direction: column;
+  .radial-slider-container {
+    width: 80%;
+    margin-top: 30px;
   }
 
-  .food-search-input {
-      width: 100%;
-  }
-
-  .food-search-button {
-      width: 100%;
+  .food-section-container {
+    width: 100%;
   }
 }

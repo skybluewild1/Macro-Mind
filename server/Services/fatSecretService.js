@@ -35,22 +35,33 @@ async function getAccessToken() {
         throw new Error("Failed to retrieve access token");
     }
 }
-
-// Function to search for food
-async function searchFood(query, foodType = "Generic", meal = "lunch") {
-    /*if (!isValidFoodType(foodType) || !isValidMealType(meal)) {
-        throw new Error("Invalid foodType or meal parameter");
+//food Details
+async function getFoodDetails(food_id) {
+   // Make an API call to FatSecret to get detailed info about the food by food_id
+   const response = await fetch(`https://platform.fatsecret.com/rest/foods/get/${food_id}?format=json`, {
+    method: 'GET',
+    headers: {
+        'Authorization': `Bearer ${process.env.FATSECRET_ACCESS_TOKEN}`,
     }
-    */
+});
+
+if (!response.ok) {
+    throw new Error('Failed to fetch food details');
+}
+
+return await response.json();
+}
+// Function to search for food
+async function searchFood(query, pageNumber = 0, maxResults = 20) {
     const token = await getAccessToken();
-    
+
     try {
-        const response = await axios.get(process.env.FATSECRET_BASE_URL, {
+        const response = await axios.get("https://platform.fatsecret.com/rest/foods/search/v1", {
             params: {
                 method: "foods.search",
                 search_expression: query,
-                food_type: foodType,
-                meal: meal,
+                page_number: pageNumber,
+                max_results: maxResults,
                 format: "json"
             },
             headers: { Authorization: `Bearer ${token}` }
@@ -63,4 +74,4 @@ async function searchFood(query, foodType = "Generic", meal = "lunch") {
     }
 }
 
-module.exports = { searchFood };
+module.exports = { searchFood, getFoodDetails};
