@@ -18,6 +18,7 @@ export default function Register() {
     equipment: [],
     level: "",
     diet: [],
+    activity: "",
   });
 
   const handleCheckboxChange = (e, field) => {
@@ -40,7 +41,7 @@ export default function Register() {
 
   const RegisteredUser = async (e) => {
     e.preventDefault();
-    const { username, email, password, age, sex, weight, height, workoutStyle, goals, equipment, level, diet } = data;
+    const { username, email, password, age, sex, weight, height, workoutStyle, goals, equipment, level, diet, activity } = data;
     try {
       const response = await axios.post("/register", {
         username,
@@ -55,6 +56,7 @@ export default function Register() {
         equipment,
         level,
         diet,
+        activity
       });
       if (response.data.error) {
         toast.error(response.data.error);
@@ -72,6 +74,7 @@ export default function Register() {
           equipment: [],
           level: "",
           diet: [],
+          activity: "",
         });
         toast.success("Registration successful. Welcome!");
         navigate("/login");
@@ -349,6 +352,27 @@ export default function Register() {
               {dietOption}
             </label>
           ))}
+        </div>
+
+          {/* Activity Level */}
+        <div style={{ marginBottom: "15px" }}>
+          <label htmlFor="activity" style={{ display: "block", marginBottom: "5px", fontWeight: "bold", fontSize: "1rem", color: "#333" }}>
+            Activity Level
+          </label>
+          <select
+            id="activity"
+            name="activity"
+            value={data.activity}
+            onChange={(e) => setData({ ...data, activity: e.target.value })}
+            style={{ width: "100%", padding: "10px", border: "1px solid #ddd", borderRadius: "4px" }}
+          >
+            <option value="">Select your daily activity level</option>
+            <option value="1.2">Little or no exercise</option>
+            <option value="1.375">Light exercise 1-3 times/week</option>
+            <option value="1.55">Moderate exercise 3-5 times/week</option>
+            <option value="1.725">Hard exercise 6-7 times/week</option>
+            <option value="1.9">Physical job or daily intense exercise</option>
+          </select>
         </div>
 
         <button

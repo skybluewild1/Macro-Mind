@@ -27,7 +27,8 @@ const registerUser = async (req, res) => {
             goals, 
             equipment, 
             level, 
-            diet 
+            diet,
+            activity 
           } = req.body;
         // Check if name was entered
         if(!username) {
@@ -76,6 +77,7 @@ const registerUser = async (req, res) => {
             equipment,
             level,
             diet,
+            activity,
         });
 
         return res.json(user)
@@ -116,6 +118,7 @@ const loginUser = async (req,res) => {
     }
 }
 
+/*
 const getProfile = (req, res) => {
 const {token} = req.cookies
 if(token) {
@@ -126,7 +129,32 @@ if(token) {
 } else {
     res.json(null)
 }
-}
+}*/
+
+// updated function to get all attributes of the user
+const getProfile = async (req, res) => {
+    try {
+        const { token } = req.cookies;
+        if (!token) {
+            return res.json(null);
+        }
+
+        // Verify the token and extract the user ID
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        //Fetch the full user profile from MongoDB
+        const user = await User.findById(decoded.id).select("-password"); // Exclude password for security
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        res.json(user); // Now returns all user fields!
+    } catch (err) {
+        console.error("Error fetching user profile:", err);
+        res.status(500).json({ error: "Server error" });
+    }
+};
 
 module.exports = {
     test,

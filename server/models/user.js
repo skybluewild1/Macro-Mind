@@ -16,7 +16,8 @@ const userSchema = new Schema({
     goals: [String],
     equipment: [String],
     level: String,
-    diet: [String]
+    diet: [String],
+    activity: Number
 
 })
 
