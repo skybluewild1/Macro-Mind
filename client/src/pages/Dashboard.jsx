@@ -5,7 +5,6 @@ import "./Dashboard.css"; // Importing CSS for styling
 export default function Dashboard() {
     const { user } = useContext(UserContext);
     const [query, setQuery] = useState("");
-    const [suggestions, setSuggestions] = useState([]); // Autocomplete results
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [foodResults, setFoodResults] = useState([]); // Store product search results
@@ -56,11 +55,16 @@ export default function Dashboard() {
                 return acc;
             }, { calories: 0, fat: 0, carbs: 0, protein: 0 }) : {};
 
+            const servingSize = productDetails.nutrition ? productDetails.nutrition.servingSize : 100; // Assume the default is 100g
+            const caloriesPerServing = nutrition.calories;
+
             setSelectedFood({
                 foodName: productDetails.title,
                 foodImage: productDetails.image,
                 foodUrl: productDetails.sourceUrl,
                 nutrition: nutrition,
+                servingSize, // Store the serving size for calculations
+                caloriesPerServing, // Store calories per serving size (e.g., 100g)
             });
 
             // Update calories and macronutrients
@@ -78,7 +82,7 @@ export default function Dashboard() {
         setQuantityModal(true); // Open modal
     };
 
-    // Handle quantity submission
+    // Handle quantity submission and calculate calories
     const handleQuantitySubmit = () => {
         // Validate the quantity and unit
         if (!quantity || !unit) {
@@ -86,10 +90,23 @@ export default function Dashboard() {
             return;
         }
 
+        // Calculate calories based on the serving size and quantity
+        const servingSize = selectedFood.servingSize || 100; // Default to 100g
+        const caloriesPerServing = selectedFood.caloriesPerServing;
+
+        // Calculate total calories based on the quantity
+        let totalCalories = 0;
+        if (unit === "grams") {
+            totalCalories = (caloriesPerServing / servingSize) * quantity;
+        }
+        // Add more units handling if needed (like cups, tbsp, etc.)
+
+        // Store the product with its quantity and calculated calories
         const newProduct = {
             productId: selectedProductId,
             quantity,
             unit,
+            totalCalories, // Store calculated calories
         };
 
         // Store the product with its quantity in the user's products data
@@ -175,7 +192,8 @@ export default function Dashboard() {
                                 {selectedFood.foodImage && (
                                     <img src={selectedFood.foodImage} alt={selectedFood.foodName} />
                                 )}
-                                <p><strong>Calories:</strong> {selectedFood.nutrition.calories} kcal</p>
+                                <p><strong>Calories per Serving:</strong> {selectedFood.caloriesPerServing} kcal</p>
+                                <p><strong>Calories:</strong> {calories} kcal</p>
                                 <p><strong>Fat:</strong> {selectedFood.nutrition.fat} g</p>
                                 <p><strong>Carbs:</strong> {selectedFood.nutrition.carbs} g</p>
                                 <p><strong>Protein:</strong> {selectedFood.nutrition.protein} g</p>
@@ -217,7 +235,7 @@ export default function Dashboard() {
                         <ul>
                             {userProducts.map((item, index) => (
                                 <li key={index}>
-                                    {item.quantity} {item.unit} of product {item.productId}
+                                    {item.quantity} {item.unit} of product {item.productId}, Calories: {item.totalCalories}
                                 </li>
                             ))}
                         </ul>
