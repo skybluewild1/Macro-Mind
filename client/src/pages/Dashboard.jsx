@@ -8,145 +8,100 @@ export default function Dashboard() {
     const [suggestions, setSuggestions] = useState([]); // Autocomplete results
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [foodResults, setFoodResults] = useState([]); //new
-    const [selectedFood, setSelectedFood] = useState(null); //new
-    const [foodDetails, setFoodDetails] = useState(null); // Store selected food details
+    const [foodResults, setFoodResults] = useState([]); // Store product search results
+    const [selectedFood, setSelectedFood] = useState(null); // Store selected product details
     const [calories, setCalories] = useState(0); // Total calorie count
     const [macros, setMacros] = useState({ protein: 0, carbs: 0, fat: 0 }); // Macronutrient tracker
-     // Function to handle search form submission
-     const handleSearchSubmit = async (e) => {
+    const [quantityModal, setQuantityModal] = useState(false); // State to control quantity input modal
+    const [selectedProductId, setSelectedProductId] = useState(null); // Store selected product ID for quantity
+    const [quantity, setQuantity] = useState(""); // Store quantity input
+    const [unit, setUnit] = useState(""); // Store the unit of measurement (grams, cups, etc.)
+    const [userProducts, setUserProducts] = useState([]); // Store user's added products and quantities
+
+    // Function to handle search form submission (Spoonacular product search integration)
+    const handleSearchSubmit = async (e) => {
         e.preventDefault();
-        setFoodDetails(null);  // Reset the details when performing a new search
-        setError(null); // Reset error
+        setLoading(true);
+        setFoodResults([]);  // Reset the previous results
+        setError("");  // Reset error
+
         try {
-            const response = await fetch(`http://localhost:8000/api/food/search?q=${query}&page_number=0&max_results=20`);
+            const response = await fetch(`https://api.spoonacular.com/food/products/search?query=${query}&number=5&apiKey=44c64a1459da472185a7671b540fa583`);
             if (!response.ok) throw new Error("Failed to fetch food data");
-    
+
             const data = await response.json();
-            setFoodResults(data.foods.food || []); // Store food results
+            setFoodResults(data.products || []); // Store product results
+            setLoading(false); // Stop loading
         } catch (err) {
             console.error(err);
             setError("Failed to fetch food results.");
+            setLoading(false); // Stop loading
         }
     };
-    
-    // Handle autocomplete suggestions
-    /*
-    const fetchAutocompleteSuggestions = async (searchTerm) => {
-        if (searchTerm.length < 2) return setSuggestions([]);
-        
+
+    // Handle product selection and fetch its details
+    const handleFoodSelect = async (productId) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/food/autocomplete?q=${searchTerm}`);
-            if (!response.ok) throw new Error("Failed to fetch suggestions");
-            
-            const data = await response.json();
-            setSuggestions(data.suggestions || []);
-        } catch (err) {
-            console.error(err);
-            setError("Failed to fetch suggestions.");
-        }
-    };
-    */
-    // Handle food selection and fetch its details
-    const handleFoodSelect = async (foodId) => {
-        try {
-            // Make the fetch request to get the food details
-            const response = await fetch(`http://localhost:8000/api/food/details?food_id=${foodId}`);
-    
-            if (!response.ok) {
-                // If the response status is not OK, log the status and throw an error
-                console.error(`Error: ${response.statusText}`);
-                throw new Error("Failed to fetch food details");
-            }
-    
-            // Parse the response data
-            const foodDetails = await response.json();
-    
-            // Log the full response to inspect the structure
-            console.log("Full response:", foodDetails);
-    
-            // Check if the food details are available
-            if (!foodDetails || !foodDetails.foods || !foodDetails.foods.food) {
-                throw new Error("Food details not found in the response.");
-            }
-    
-            // Extract the food data
-            const foodDescription = foodDetails.foods.food.food_description || "No description available";
-            const nutrition = extractNutrition(foodDescription);
-    
-            // Update state with the fetched food details
-            setFoodDetails({
-                ...foodDetails.foods.food,
+            const response = await fetch(`https://api.spoonacular.com/food/products/${productId}?apiKey=44c64a1459da472185a7671b540fa583`);
+            if (!response.ok) throw new Error("Failed to fetch product details");
+
+            const productDetails = await response.json();
+
+            // Extract nutrition info from product details (if available)
+            const nutrition = productDetails.nutrition ? productDetails.nutrition.nutrients.reduce((acc, nutrient) => {
+                if (nutrient.name === "Calories") acc.calories = nutrient.amount;
+                if (nutrient.name === "Fat") acc.fat = nutrient.amount;
+                if (nutrient.name === "Carbohydrates") acc.carbs = nutrient.amount;
+                if (nutrient.name === "Protein") acc.protein = nutrient.amount;
+                return acc;
+            }, { calories: 0, fat: 0, carbs: 0, protein: 0 }) : {};
+
+            setSelectedFood({
+                foodName: productDetails.title,
+                foodImage: productDetails.image,
+                foodUrl: productDetails.sourceUrl,
                 nutrition: nutrition,
             });
-        } catch (err) {
-            // Log any errors to understand the issue
-            console.error("Error fetching food details:", err);
-            setError("Failed to fetch food details.");
-        }
-    };
-    
-    
-    
 
-    function extractNutrition(description) {
-        // Create an object to hold the extracted values
-        const nutrition = {
-            calories: 0,
-            protein: 0,
-            carbs: 0,
-            fat: 0,
-        };
-    
-        // Regular expression to extract values
-        const regex = /Calories:\s*(\d+)(kcal)|Fat:\s*(\d+(\.\d+)?)(g)|Carbs:\s*(\d+(\.\d+)?)(g)|Protein:\s*(\d+(\.\d+)?)(g)/g;
-        let match;
-    
-        while ((match = regex.exec(description)) !== null) {
-            if (match[1]) {
-                nutrition.calories = parseFloat(match[1]);
-            }
-            if (match[3]) {
-                nutrition.fat = parseFloat(match[3]);
-            }
-            if (match[5]) {
-                nutrition.carbs = parseFloat(match[5]);
-            }
-            if (match[7]) {
-                nutrition.protein = parseFloat(match[7]);
-            }
-        }
-    
-        return nutrition;
-    }
-    
-    
-    
-    /*
-    const handleFoodClick = async (foodName) => {
-        setSuggestions([]);
-        setQuery(foodName); // Set input value to selected food
-        
-        try {
-            const response = await fetch(`http://localhost:8000/api/food/details?food_name=${foodName}`);
-            if (!response.ok) throw new Error("Failed to retrieve food details");
-            
-            const foodData = await response.json();
-            setFoodDetails(foodData);
-    
             // Update calories and macronutrients
-            setCalories(prevCalories => prevCalories + (foodData.nutrition.calories || 0));
-            setMacros(prevMacros => ({
-                protein: prevMacros.protein + (foodData.nutrition.protein || 0),
-                carbs: prevMacros.carbs + (foodData.nutrition.carbs || 0),
-                fat: prevMacros.fat + (foodData.nutrition.fat || 0),
-            }));
+            setCalories(nutrition.calories);
+            setMacros(nutrition);
         } catch (err) {
             console.error(err);
-            setError("Failed to fetch food details. Please try again.");
+            setError("Failed to fetch product details.");
         }
     };
-*/
+
+    // Handle the "Add Quantity" button click and show the modal
+    const handleAddQuantity = (productId) => {
+        setSelectedProductId(productId);
+        setQuantityModal(true); // Open modal
+    };
+
+    // Handle quantity submission
+    const handleQuantitySubmit = () => {
+        // Validate the quantity and unit
+        if (!quantity || !unit) {
+            setError("Please enter a valid quantity and unit.");
+            return;
+        }
+
+        const newProduct = {
+            productId: selectedProductId,
+            quantity,
+            unit,
+        };
+
+        // Store the product with its quantity in the user's products data
+        setUserProducts([...userProducts, newProduct]);
+
+        // Close the modal
+        setQuantityModal(false);
+        setQuantity(""); // Reset quantity
+        setUnit(""); // Reset unit
+        setError(""); // Clear any previous error
+    };
+
     return (
         <div className="dashboard-container">
             <h1 className="dashboard-title">Welcome to Your Dashboard</h1>
@@ -193,42 +148,85 @@ export default function Dashboard() {
                         {loading && <p>Loading...</p>}
                         {error && <p className="error-message">{error}</p>}
 
-                        {/* Display food results */}
+                        {/* Display product results */}
                         {foodResults.length > 0 && (
                             <ul className="food-results">
                                 {foodResults.map((food) => (
                                     <li
-                                        key={food.food_id}
+                                        key={food.id}
                                         className="food-item"
-                                        onClick={() => handleFoodSelect(food.food_id)}
+                                        onClick={() => handleFoodSelect(food.id)}
                                         style={{ cursor: "pointer" }}
                                     >
-                                        <strong>{food.food_name}</strong>
+                                        <strong>{food.title}</strong>
+                                        {/* Only show image if it exists */}
+                                        {food.image && <img src={food.image} alt={food.title} />}
+                                        {/* Add Plus Button */}
+                                        <button onClick={() => handleAddQuantity(food.id)} className="add-quantity-button">+</button>
                                     </li>
                                 ))}
                             </ul>
                         )}
 
                         {/* Display selected food details */}
-                        {foodDetails && (
-    <div className="food-details">
-        <h2>{foodDetails.food_name}</h2>
-        <p><strong>Description:</strong> {foodDetails.food_description}</p>
-        <p><strong>Brand:</strong> {foodDetails.brand_name || "N/A"}</p>
-        <p><strong>Calories:</strong> {foodDetails.nutrition.calories} kcal</p>
-        <p><strong>Fat:</strong> {foodDetails.nutrition.fat} g</p>
-        <p><strong>Carbs:</strong> {foodDetails.nutrition.carbs} g</p>
-        <p><strong>Protein:</strong> {foodDetails.nutrition.protein} g</p>
-        <a href={foodDetails.food_url} target="_blank" rel="noopener noreferrer">More info</a>
-    </div>
-)}
-
+                        {selectedFood && (
+                            <div className="food-details">
+                                <h2>{selectedFood.foodName}</h2>
+                                {selectedFood.foodImage && (
+                                    <img src={selectedFood.foodImage} alt={selectedFood.foodName} />
+                                )}
+                                <p><strong>Calories:</strong> {selectedFood.nutrition.calories} kcal</p>
+                                <p><strong>Fat:</strong> {selectedFood.nutrition.fat} g</p>
+                                <p><strong>Carbs:</strong> {selectedFood.nutrition.carbs} g</p>
+                                <p><strong>Protein:</strong> {selectedFood.nutrition.protein} g</p>
+                                <a href={selectedFood.foodUrl} target="_blank" rel="noopener noreferrer">More info</a>
+                            </div>
+                        )}
                     </div>
+
+                    {/* Quantity Input Modal */}
+                    {quantityModal && (
+                        <div className="quantity-modal">
+                            <h3>Add Quantity</h3>
+                            <input
+                                type="number"
+                                placeholder="Quantity"
+                                value={quantity}
+                                onChange={(e) => setQuantity(e.target.value)}
+                                className="quantity-input"
+                            />
+                            <select onChange={(e) => setUnit(e.target.value)} value={unit} className="unit-selector">
+                                <option value="">Select Unit</option>
+                                <option value="grams">Grams</option>
+                                <option value="cups">Cups</option>
+                                <option value="tbsp">Tablespoons</option>
+                                {/* Add more units as needed */}
+                            </select>
+                            <button onClick={handleQuantitySubmit} className="submit-quantity-button">
+                                Add Quantity
+                            </button>
+                            <button onClick={() => setQuantityModal(false)} className="close-modal-button">
+                                Close
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Display Added Products */}
+                    <div>
+                        <h2>Your Added Products</h2>
+                        <ul>
+                            {userProducts.map((item, index) => (
+                                <li key={index}>
+                                    {item.quantity} {item.unit} of product {item.productId}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
                 </div>
             ) : (
                 <p className="no-user">Please log in to see your dashboard.</p>
             )}
         </div>
     );
-};
-
+}
