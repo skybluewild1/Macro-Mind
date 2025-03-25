@@ -18,23 +18,31 @@ export default function Dashboard() {
     const [userProducts, setUserProducts] = useState([]); // Store user's added products and quantities
 
     // Function to handle search form submission (Spoonacular product search integration)
-    const handleSearchSubmit = async (e) => {
-        e.preventDefault();
+    const handleSearchSubmit = async () => {
+        if (!query) return;  // Avoid empty search requests
+    
         setLoading(true);
-        setFoodResults([]);  // Reset the previous results
-        setError("");  // Reset error
-
+        setError(null);
+    
         try {
-            const response = await fetch(`https://api.spoonacular.com/food/products/search?query=${query}&number=5&apiKey=44c64a1459da472185a7671b540fa583`);
-            if (!response.ok) throw new Error("Failed to fetch food data");
-
+            const response = await fetch(
+                `https://api.spoonacular.com/food/ingredients/search?query=${query}&number=5&apiKey=44c64a1459da472185a7671b540fa583`
+            );
+    
+            if (!response.ok) {
+                throw new Error(`Failed to fetch: ${response.status}`);
+            }
+    
             const data = await response.json();
-            setFoodResults(data.products || []); // Store product results
-            setLoading(false); // Stop loading
-        } catch (err) {
-            console.error(err);
-            setError("Failed to fetch food results.");
-            setLoading(false); // Stop loading
+            console.log('API Response:', data);  // Log the response to verify it
+    
+            // Update the food results state with the API response
+            setFoodResults(data.results);  // Access the 'results' array
+        } catch (error) {
+            console.error('Error:', error);
+            setError('Failed to fetch data. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -43,9 +51,9 @@ export default function Dashboard() {
         try {
             const response = await fetch(`https://api.spoonacular.com/food/products/${productId}?apiKey=44c64a1459da472185a7671b540fa583`);
             if (!response.ok) throw new Error("Failed to fetch product details");
-
+    
             const productDetails = await response.json();
-
+    
             // Extract nutrition info from product details (if available)
             const nutrition = productDetails.nutrition ? productDetails.nutrition.nutrients.reduce((acc, nutrient) => {
                 if (nutrient.name === "Calories") acc.calories = nutrient.amount;
@@ -54,10 +62,9 @@ export default function Dashboard() {
                 if (nutrient.name === "Protein") acc.protein = nutrient.amount;
                 return acc;
             }, { calories: 0, fat: 0, carbs: 0, protein: 0 }) : {};
-
+    
             const servingSize = productDetails.nutrition ? productDetails.nutrition.servingSize : 100; // Assume the default is 100g
             const caloriesPerServing = nutrition.calories;
-
             setSelectedFood({
                 foodName: productDetails.title,
                 foodImage: productDetails.image,
@@ -66,13 +73,8 @@ export default function Dashboard() {
                 servingSize, // Store the serving size for calculations
                 caloriesPerServing, // Store calories per serving size (e.g., 100g)
             });
-
-            // Update calories and macronutrients
-            setCalories(nutrition.calories);
-            setMacros(nutrition);
-        } catch (err) {
-            console.error(err);
-            setError("Failed to fetch product details.");
+        } catch (error) {
+            console.error("Error selecting food:", error);
         }
     };
 
@@ -84,39 +86,47 @@ export default function Dashboard() {
 
     // Handle quantity submission and calculate calories
     const handleQuantitySubmit = () => {
-        // Validate the quantity and unit
-        if (!quantity || !unit) {
-            setError("Please enter a valid quantity and unit.");
-            return;
-        }
-
-        // Calculate calories based on the serving size and quantity
-        const servingSize = selectedFood.servingSize || 100; // Default to 100g
-        const caloriesPerServing = selectedFood.caloriesPerServing;
-
-        // Calculate total calories based on the quantity
+        if (!selectedFood || !quantity || !unit) return;
+    
+        const baseCalories = selectedFood.caloriesPerServing;
+        const baseMacros = selectedFood.nutrition;
+    
         let totalCalories = 0;
-        if (unit === "grams") {
-            totalCalories = (caloriesPerServing / servingSize) * quantity;
+        let totalProtein = 0;
+        let totalCarbs = 0;
+        let totalFat = 0;
+    
+        if (unit === "whole") {
+            // Calculate based on the number of whole items
+            totalCalories = baseCalories * quantity;
+            totalProtein = baseMacros.protein * quantity;
+            totalCarbs = baseMacros.carbs * quantity;
+            totalFat = baseMacros.fat * quantity;
+        } else {
+            // For grams, cups, tbsp → use standard logic (assumes 1 serving size reference)
+            const factor = parseFloat(quantity);  // Quantity factor
+            totalCalories = baseCalories * factor;
+            totalProtein = baseMacros.protein * factor;
+            totalCarbs = baseMacros.carbs * factor;
+            totalFat = baseMacros.fat * factor;
         }
-        // Add more units handling if needed (like cups, tbsp, etc.)
-
-        // Store the product with its quantity and calculated calories
+    
+        // Add product to the list with the calculated values
         const newProduct = {
-            productId: selectedProductId,
-            quantity,
-            unit,
-            totalCalories, // Store calculated calories
+            productId: selectedFood.foodName,
+            quantity: quantity,
+            unit: unit,
+            totalCalories: totalCalories.toFixed(2),
+            protein: totalProtein.toFixed(2),
+            carbs: totalCarbs.toFixed(2),
+            fat: totalFat.toFixed(2),
         };
-
-        // Store the product with its quantity in the user's products data
-        setUserProducts([...userProducts, newProduct]);
-
-        // Close the modal
+    
+        // Update state
+        setUserProducts((prevProducts) => [...prevProducts, newProduct]);
         setQuantityModal(false);
-        setQuantity(""); // Reset quantity
-        setUnit(""); // Reset unit
-        setError(""); // Clear any previous error
+        setQuantity("");
+        setUnit("");
     };
 
     return (
@@ -126,7 +136,7 @@ export default function Dashboard() {
                 <div className="user-card">
                     <h2 className="greeting">Hi {user.username}!</h2>
                     <p className="user-info">You are all set to track your progress and goals.</p>
-
+    
                     {/* Radial Wheel Progress Tracker */}
                     <div className="radial-slider-container">
                         <h2 className="radial-slider-title">Progress</h2>
@@ -144,14 +154,14 @@ export default function Dashboard() {
                         <p className="progress-info">Carbs: {macros.carbs}g</p>
                         <p className="progress-info">Fat: {macros.fat}g</p>
                     </div>
-
+    
                     {/* Food Search */}
                     <div className="food-search-container">
-                        <h2 className="food-search-title">Search for Food</h2>
+                        <h2 className="food-search-title">Search for Ingredients</h2>
                         <div className="food-search-bar">
                             <input
                                 type="text"
-                                placeholder="Search for food..."
+                                placeholder="Search for ingredients..."
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
                                 className="food-search-input"
@@ -160,12 +170,12 @@ export default function Dashboard() {
                                 Search
                             </button>
                         </div>
-
+    
                         {/* Display loading or error */}
                         {loading && <p>Loading...</p>}
                         {error && <p className="error-message">{error}</p>}
-
-                        {/* Display product results */}
+    
+                        {/* Display ingredient results */}
                         {foodResults.length > 0 && (
                             <ul className="food-results">
                                 {foodResults.map((food) => (
@@ -175,51 +185,79 @@ export default function Dashboard() {
                                         onClick={() => handleFoodSelect(food.id)}
                                         style={{ cursor: "pointer" }}
                                     >
-                                        <strong>{food.title}</strong>
-                                        {/* Only show image if it exists */}
-                                        {food.image && <img src={food.image} alt={food.title} />}
-                                        {/* Add Plus Button */}
+                                        <strong>{food.name}</strong>  {/* Display the ingredient name */}
+                                        
+                                        {/* Display image if available */}
+                                        {food.image && (
+                                            <img
+                                                src={`https://spoonacular.com/cdn/ingredients_100x100/${food.image}`}
+                                                alt={food.name}
+                                            />
+                                        )}
+    
+                                        {/* Add Button */}
                                         <button onClick={() => handleAddQuantity(food.id)} className="add-quantity-button">+</button>
                                     </li>
                                 ))}
                             </ul>
                         )}
-
-                        {/* Display selected food details */}
+    
+                        {/* Display selected ingredient details */}
                         {selectedFood && (
                             <div className="food-details">
                                 <h2>{selectedFood.foodName}</h2>
+    
+                                {/* Display ingredient image */}
                                 {selectedFood.foodImage && (
-                                    <img src={selectedFood.foodImage} alt={selectedFood.foodName} />
+                                    <img
+                                        src={`https://spoonacular.com/cdn/ingredients_100x100/${selectedFood.foodImage}`}
+                                        alt={selectedFood.foodName}
+                                    />
                                 )}
+    
+                                {/* Ingredient Nutritional Information */}
                                 <p><strong>Calories per Serving:</strong> {selectedFood.caloriesPerServing} kcal</p>
-                                <p><strong>Calories:</strong> {calories} kcal</p>
                                 <p><strong>Fat:</strong> {selectedFood.nutrition.fat} g</p>
                                 <p><strong>Carbs:</strong> {selectedFood.nutrition.carbs} g</p>
                                 <p><strong>Protein:</strong> {selectedFood.nutrition.protein} g</p>
-                                <a href={selectedFood.foodUrl} target="_blank" rel="noopener noreferrer">More info</a>
+    
+                                {/* More Info Link */}
+                                <a
+                                    href={selectedFood.foodUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    More info
+                                </a>
                             </div>
                         )}
                     </div>
-
+    
                     {/* Quantity Input Modal */}
                     {quantityModal && (
                         <div className="quantity-modal">
                             <h3>Add Quantity</h3>
+    
+                            {/* Quantity Input */}
                             <input
                                 type="number"
                                 placeholder="Quantity"
                                 value={quantity}
                                 onChange={(e) => setQuantity(e.target.value)}
                                 className="quantity-input"
+                                min="1"
                             />
+    
+                            {/* Unit Selector */}
                             <select onChange={(e) => setUnit(e.target.value)} value={unit} className="unit-selector">
                                 <option value="">Select Unit</option>
+                                <option value="whole">Whole Item(s)</option>  {/* New Option */}
                                 <option value="grams">Grams</option>
                                 <option value="cups">Cups</option>
                                 <option value="tbsp">Tablespoons</option>
-                                {/* Add more units as needed */}
                             </select>
+    
+                            {/* Submit and Close Buttons */}
                             <button onClick={handleQuantitySubmit} className="submit-quantity-button">
                                 Add Quantity
                             </button>
@@ -228,19 +266,24 @@ export default function Dashboard() {
                             </button>
                         </div>
                     )}
-
+    
                     {/* Display Added Products */}
                     <div>
                         <h2>Your Added Products</h2>
                         <ul>
                             {userProducts.map((item, index) => (
                                 <li key={index}>
-                                    {item.quantity} {item.unit} of product {item.productId}, Calories: {item.totalCalories}
+                                    {item.quantity} 
+                                    {item.unit === "whole" ? " item(s)" : ` ${item.unit}`} 
+                                    of ingredient {item.productId}, 
+                                    Calories: {item.totalCalories} kcal, 
+                                    Protein: {item.protein}g, 
+                                    Carbs: {item.carbs}g, 
+                                    Fat: {item.fat}g
                                 </li>
                             ))}
                         </ul>
                     </div>
-
                 </div>
             ) : (
                 <p className="no-user">Please log in to see your dashboard.</p>

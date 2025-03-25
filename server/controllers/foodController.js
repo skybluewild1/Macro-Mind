@@ -1,4 +1,4 @@
-const { searchFood, getFoodDetails } = require('../Services/spoonacularService');
+const { searchIngredients, getIngredientDetails } = require('../Services/spoonacularService');
 
 // Controller function to handle food search
 async function searchFoodController(req, res) {
@@ -13,7 +13,7 @@ async function searchFoodController(req, res) {
 
     try {
         // Call the searchFood function with the query, pageNumber, and maxResults
-        const data = await searchFood(query, pageNumber, maxResults);
+        const data = await searchIngredients(query, pageNumber, maxResults);
         res.json(data);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -27,9 +27,8 @@ async function getFoodDetailsController(req, res) {
     if (!foodId) {
         return res.status(400).json({ error: 'Food ID is required' });
     }
-
     try {
-        const foodDetails = await getFoodDetails(foodId);
+        const foodDetails = await getIngredientDetails(foodId);
         res.json(foodDetails);
     } catch (error) {
         res.status(500).json({ error: error.message });

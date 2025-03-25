@@ -2,12 +2,13 @@ require('dotenv').config();
 const axios = require('axios');
 
 // Spoonacular API base URL
+// Spoonacular API base URL
 const SPOONACULAR_API_URL = 'https://api.spoonacular.com';
 
-// Function to search food based on a query
-async function searchFood(query, pageNumber = 1, maxResults = 20) {
+// Function to search ingredients
+async function searchIngredients(query, pageNumber = 1, maxResults = 20) {
     try {
-        const response = await axios.get(`${SPOONACULAR_API_URL}/food/search`, {
+        const response = await axios.get(`${SPOONACULAR_API_URL}/food/ingredients/search`, {
             params: {
                 query: query,
                 number: maxResults,
@@ -17,24 +18,25 @@ async function searchFood(query, pageNumber = 1, maxResults = 20) {
         });
         return response.data;
     } catch (error) {
-        console.error('Error searching food:', error.response ? error.response.data : error.message);
-        throw new Error('Failed to retrieve food data');
+        console.error('Error searching ingredients:', error.response ? error.response.data : error.message);
+        throw new Error('Failed to retrieve ingredient data');
     }
 }
 
-// Function to fetch food details by food id
-async function getFoodDetails(foodId) {
+// Function to fetch ingredient details by ID
+async function getIngredientDetails(ingredientId) {
     try {
-        const response = await axios.get(`${SPOONACULAR_API_URL}/food/ingredients/${foodId}/information`, {
+        const response = await axios.get(`${SPOONACULAR_API_URL}/food/ingredients/${ingredientId}/information`, {
             params: {
                 apiKey: process.env.SPOONACULAR_API_KEY,
             }
         });
         return response.data;
     } catch (error) {
-        console.error('Error fetching food details:', error.response ? error.response.data : error.message);
-        throw new Error('Failed to retrieve food details');
+        console.error('Error fetching ingredient details:', error.response ? error.response.data : error.message);
+        throw new Error('Failed to retrieve ingredient details');
     }
 }
 
-module.exports = { searchFood, getFoodDetails };
+module.exports = { searchIngredients, getIngredientDetails };
+
