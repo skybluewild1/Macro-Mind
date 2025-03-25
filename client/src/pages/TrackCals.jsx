@@ -1,32 +1,14 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { UserContext } from "../../context/userContext";
-import "./Dashboard.css"; // Importing CSS for styling
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import "./TrackCals.css"; // Create and style this file accordingly
 
-// function to calculate the user's unique maintenance calories using the Mifflin-St Jeor equation
-function calcMaintCals(sex, weight, height, age, activity) {
-    if (!sex) {
-        console.error("Error: Sex is undefined or null.");
-        return "Invalid gender input"; // Return early to avoid further errors
-    }
-    const normalizedSex = sex.trim().toLowerCase(); // Normalize input
-
-    const kg = weight / 2.205;
-    const cm = height * 2.54;
-
-    if (normalizedSex === "male") {
-        return activity * ((10 * kg) + (6.25 * cm) - (5 * age) + 5);
-    } else if (normalizedSex === "female") {
-        return activity * ((10 * kg) + (6.25 * cm) - (5 * age) - 161);
-    } else {
-        return "Invalid gender input"; // Handles errors
-    }
-}
-
-export default function Dashboard() {
-    const {user, setUser} = useContext(UserContext);
-    const navigate = useNavigate();
+export default function TrackCals() {
+    const { user } = useContext(UserContext);
+    const [query, setQuery] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [foodResults, setFoodResults] = useState([]); // Store product search results
+    const [selectedFood, setSelectedFood] = useState(null); // Store selected product details
     const [calories, setCalories] = useState(0); // Total calorie count
     const [macros, setMacros] = useState({ protein: 0, carbs: 0, fat: 0 }); // Macronutrient tracker
     const [quantityModal, setQuantityModal] = useState(false); // State to control quantity input modal
@@ -138,33 +120,10 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="dashboard-container">
-            <h1 className="dashboard-title">Welcome to Your Dashboard</h1>
-            {user ? (
-                <div className="user-card">
-                    <h2 className="greeting">Hi {user.username}!</h2>
-                    <p className="user-info">You are all set to track your progress and goals.</p>
-
-                    {/* Radial Wheel Progress Tracker */}
-                    <div className="radial-slider-container">
-                        <h2 className="radial-slider-title">Progress</h2>
-                        <div className="radial-wheel">
-                            <div className="radial-wheel-background">
-                                <div
-                                    className="radial-wheel-fill"
-                                    style={{ transform: `rotate(${(calories / maintenanceCalories) * 360}deg)` }}
-                                ></div>
-                                <div className="radial-wheel-handle"></div>
-                            </div>
-                        </div>
-                        <p className="progress-info">Calories: {calories} / {maintenanceCalories ? `${maintenanceCalories}` : 2000}</p>
-                        <p className="progress-info">Protein: {macros.protein}g</p>
-                        <p className="progress-info">Carbs: {macros.carbs}g</p>
-                        <p className="progress-info">Fat: {macros.fat}g</p>
-                    </div>
-
-                    {/* Food Search */}
-                    <div className="food-search-container">
+        <div>
+            <h1>Search Page</h1>
+            {/* Food Search */}
+            <div className="food-search-container">
                         <h2 className="food-search-title">Search for Food</h2>
                         <div className="food-search-bar">
                             <input
@@ -258,10 +217,6 @@ export default function Dashboard() {
                             ))}
                         </ul>
                     </div>
-                </div>
-            ) : (
-                <p className="no-user">Please log in to see your dashboard.</p>
-            )}
         </div>
     );
 }
