@@ -1,56 +1,303 @@
-/* Motivation.css */
+/* 1. GLOBAL RESET & BOX SIZING */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 2. CONTAINER & LAYOUT */
+
 .motivation-container {
-    display: flex;
+  width: 100%;
+  height: 95.5vh;
+  /* background: linear-gradient(135deg, #3bfeff, #00008b); */
+  background: linear-gradient(135deg, #00008b, #3bfeff);
+  font-family: Arial, sans-serif;
+  color: #333;
+  text-align: center;
+  padding: 20px;
+  overflow-x: hidden;
+  /* overflow-y: hidden; */
+}
+
+/* 3. TITLE & TEXT */
+.motivation-title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #fff;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.motivation-text {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #f8f9fa;
+}
+
+.motivation-list {
+  list-style-type: none;
+  margin: 20px 0;
+}
+
+.motivation-list li {
+  font-size: 1rem;
+  margin: 10px 0;
+  color: #fff;
+}
+
+.motivation-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #ff6b6b;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, background-color 0.2s;
+  margin-bottom: 20px;
+}
+
+.motivation-button:hover {
+  background-color: #ff4d4d;
+  transform: scale(1.1);
+}
+
+/* 4. MAIN 2-COLUMN LAYOUT (FOR DESKTOP) */
+.main-layout {
+  max-width: 1200px;
+  margin: 0 auto;  /* keep columns within the page center */
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap; /* wrap columns on smaller screens */
+  gap: 2rem;
+  margin-top: 30px;
+  align-items: flex-start; /* top align columns */
+  justify-content: center; /* horizontally center them */
+  padding: 1rem 1rem;         /* add some side padding for mobile */
+}
+
+/* LEFT COLUMN: BREATHING WIDGET */
+.breathing-widget {
+  max-width: 500px;
+  min-width: 280px;
+  margin: 0 auto; /* ensures center if narrower than container */
+}
+
+/* RIGHT COLUMN: Stacked 4 widgets */
+.other-widgets-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 400px; /* adjust if you want them narrower/wider */
+  margin: 0 auto;
+}
+
+/* 5. WELLNESS WIDGETS: SHARED STYLES */
+.wellness-widget {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 20px;
+  width: 100%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  color: white;
+  text-align: center;
+  backdrop-filter: blur(6px);
+  transition: transform 0.3s ease;
+}
+
+.wellness-widget + .wellness-widget {
+  margin-top: 1rem; /* vertical spacing between stacked widgets */
+}
+
+.wellness-widget:hover {
+  transform: scale(1.02);
+}
+
+/* 6. BREATHING CIRCLE & BUTTONS */
+.breathing-circle {
+  margin: 0 auto;   /* center horizontally in widget */
+  width: 35vw;      /* smaller so it fits on mobile */
+  height: 35vw;
+  max-width: 260px;
+  max-height: 260px;
+  min-width: 100px;
+  min-height: 100px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px;
+  transition: all 2s ease-in-out;
+}
+
+.breathing-phase-inside {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Animation states */
+.breathing-circle.expand {
+  transform: scale(1.4); /* reduce scale to prevent overflow on mobile */
+  background: rgba(255, 255, 255, 0.4);
+}
+.breathing-circle.shrink {
+  transform: scale(0.8);
+  background: rgba(255, 255, 255, 0.15);
+}
+.breathing-circle.hold {
+  transform: scale(1.2);
+  background: rgba(255, 255, 255, 0.3);
+}
+.breathing-circle.normal {
+  transform: scale(1);
+}
+
+/* Breathing Buttons */
+.breathing-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.breathing-buttons button {
+  padding: 10px 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.start-btn {
+  background-color: #38bdf8;
+  color: black;
+}
+
+.stop-btn {
+  background-color: #f87171;
+  color: black;
+}
+
+/* 7. MOOD / AFFIRMATION / MINDFULNESS / SOUNDS */
+.mood-options {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.mood-btn {
+  /* font-size: clamp(1rem, 2vw, 1.75rem); */
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.mood-btn:hover {
+  transform: scale(1.3);
+}
+
+.mood-message {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fffbea;
+}
+
+.affirm-btn {
+  padding: 10px 20px;
+  background: #7dd3fc;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.affirm-text {
+  margin-top: 15px;
+  font-size: 1.25rem;
+  color: #fff;
+}
+
+.mindfulness-btn {
+  padding: 10px 20px;
+  background: #c4b5fd;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.mindfulness-timer {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.sound-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sound-buttons button {
+  padding: 10px 16px;
+  background-color: #bae6fd;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* 8. MEDIA QUERIES: MOBILE STACKING */
+@media (max-width: 768px) {
+  .main-layout {
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #fff048, #426bff);
-    font-family: Arial, sans-serif;
-    color: #333;
-    text-align: center;
-    padding: 20px;
   }
-  
-  .motivation-title {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: #fff;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* For extra-small screens, reduce circle further if needed */
+@media (max-width: 500px) {
+  .breathing-circle {
+    width: 45vw;
+    height: 45vw;
   }
-  
-  .motivation-text {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-    color: #f8f9fa;
+  .breathing-circle.expand {
+    transform: scale(1.3);
   }
-  
-  .motivation-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 20px 0;
+}
+.mood-btn {
+  font-size: 1.5rem; /* default for desktops */
+}
+
+/* For mid-range screens like tablets */
+@media (max-width: 768px) {
+  .mood-btn {
+    font-size: 1.25rem;
   }
-  
-  .motivation-list li {
+}
+
+/* For small phones */
+@media (max-width: 480px) {
+  .mood-btn {
     font-size: 1rem;
-    margin: 10px 0;
-    color: #fff;
   }
-  
-  .motivation-button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #ff6b6b;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s, background-color 0.2s;
-  }
-  
-  .motivation-button:hover {
-    background-color: #ff4d4d;
-    transform: scale(1.1);
-  }
-  
+}
+/* Force stop buttons inside the sound-buttons container to be red */
+.sound-buttons .stop-btn {
+  background-color: #f87171 !important;
+  color: black !important;
+}
