@@ -350,23 +350,22 @@ export default function Register() {
             </select>
           </div>
 
-{/* Dietary Restrictions */}
-<div className="form-field columns">
-  <label className="form-label">Dietary Restrictions</label>
-  {dietOptions.map((dietOption) => (
-    <label key={dietOption} className="checkbox-container">
-      <input
-        type="checkbox"
-        name="diet"
-        value={dietOption}
-        checked={data.diet.includes(dietOption)}
-        onChange={(e) => handleCheckboxChange(e, "diet")}
-      />
-      {dietOption}
-    </label>
-  ))}
-</div>
-
+          {/* Dietary Restrictions */}
+          <div className="form-field columns">
+            <label className="form-label">Dietary Restrictions</label>
+            {dietOptions.map((dietOption) => (
+              <label key={dietOption} className="checkbox-container">
+                <input
+                  type="checkbox"
+                  name="diet"
+                  value={dietOption}
+                  checked={data.diet.includes(dietOption)}
+                  onChange={(e) => handleCheckboxChange(e, "diet")}
+                />
+                {dietOption}
+              </label>
+            ))}
+          </div>
 
           {/* Activity Level */}
           <div className="form-field">

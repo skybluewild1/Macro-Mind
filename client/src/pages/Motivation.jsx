@@ -98,7 +98,8 @@ const Motivation = () => {
     "I am confident in who I am becoming.",
   ];
   const generateAffirmation = () => {
-    const random = affirmations[Math.floor(Math.random() * affirmations.length)];
+    const random =
+      affirmations[Math.floor(Math.random() * affirmations.length)];
     setAffirmation(random);
   };
 
@@ -127,7 +128,10 @@ const Motivation = () => {
   useEffect(() => {
     let timer;
     if (pomodoroStarted && pomodoroCountdown > 0) {
-      timer = setTimeout(() => setPomodoroCountdown(pomodoroCountdown - 1), 1000);
+      timer = setTimeout(
+        () => setPomodoroCountdown(pomodoroCountdown - 1),
+        1000
+      );
     } else if (pomodoroCountdown === 0) {
       setPomodoroStarted(false);
       setPomodoroCountdown(customPomodoroDuration * 60);
@@ -173,7 +177,8 @@ const Motivation = () => {
       </h1>
       <p className="motivation-text">
         Success is the sum of small efforts repeated day in and day out. Keep
-        chasing your goals, and remember to celebrate small victories along the way.
+        chasing your goals, and remember to celebrate small victories along the
+        way.
       </p>
       <ul className="motivation-list">
         <li>Set clear goals and take action daily.</li>
@@ -261,9 +266,7 @@ const Motivation = () => {
                 Start Timer
               </button>
             ) : (
-              <p className="mindfulness-timer">
-                {countdown} seconds remaining
-              </p>
+              <p className="mindfulness-timer">{countdown} seconds remaining</p>
             )}
           </section>
 

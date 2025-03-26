@@ -68,22 +68,28 @@
 /* 4. MAIN 2-COLUMN LAYOUT (FOR DESKTOP) */
 .main-layout {
   max-width: 1200px;
-  margin: 0 auto;  /* keep columns within the page center */
+  margin: 0 auto;
+  /* keep columns within the page center */
   width: 100%;
   display: flex;
-  flex-wrap: wrap; /* wrap columns on smaller screens */
+  flex-wrap: wrap;
+  /* wrap columns on smaller screens */
   gap: 2rem;
   margin-top: 30px;
-  align-items: flex-start; /* top align columns */
-  justify-content: center; /* horizontally center them */
-  padding: 1rem 1rem;         /* add some side padding for mobile */
+  align-items: flex-start;
+  /* top align columns */
+  justify-content: center;
+  /* horizontally center them */
+  padding: 1rem 1rem;
+  /* add some side padding for mobile */
 }
 
 /* LEFT COLUMN: BREATHING WIDGET */
 .breathing-widget {
   max-width: 500px;
   min-width: 280px;
-  margin: 0 auto; /* ensures center if narrower than container */
+  margin: 0 auto;
+  /* ensures center if narrower than container */
 }
 
 /* RIGHT COLUMN: Stacked 4 widgets */
@@ -92,7 +98,8 @@
   flex-direction: column;
   gap: 2rem;
   width: 100%;
-  max-width: 400px; /* adjust if you want them narrower/wider */
+  max-width: 400px;
+  /* adjust if you want them narrower/wider */
   margin: 0 auto;
 }
 
@@ -109,8 +116,9 @@
   transition: transform 0.3s ease;
 }
 
-.wellness-widget + .wellness-widget {
-  margin-top: 1rem; /* vertical spacing between stacked widgets */
+.wellness-widget+.wellness-widget {
+  margin-top: 1rem;
+  /* vertical spacing between stacked widgets */
 }
 
 .wellness-widget:hover {
@@ -119,8 +127,10 @@
 
 /* 6. BREATHING CIRCLE & BUTTONS */
 .breathing-circle {
-  margin: 0 auto;   /* center horizontally in widget */
-  width: 35vw;      /* smaller so it fits on mobile */
+  margin: 0 auto;
+  /* center horizontally in widget */
+  width: 35vw;
+  /* smaller so it fits on mobile */
   height: 35vw;
   max-width: 260px;
   max-height: 260px;
@@ -146,17 +156,21 @@
 
 /* Animation states */
 .breathing-circle.expand {
-  transform: scale(1.4); /* reduce scale to prevent overflow on mobile */
+  transform: scale(1.4);
+  /* reduce scale to prevent overflow on mobile */
   background: rgba(255, 255, 255, 0.4);
 }
+
 .breathing-circle.shrink {
   transform: scale(0.8);
   background: rgba(255, 255, 255, 0.15);
 }
+
 .breathing-circle.hold {
   transform: scale(1.2);
   background: rgba(255, 255, 255, 0.3);
 }
+
 .breathing-circle.normal {
   transform: scale(1);
 }
@@ -275,12 +289,15 @@
     width: 45vw;
     height: 45vw;
   }
+
   .breathing-circle.expand {
     transform: scale(1.3);
   }
 }
+
 .mood-btn {
-  font-size: 1.5rem; /* default for desktops */
+  font-size: 1.5rem;
+  /* default for desktops */
 }
 
 /* For mid-range screens like tablets */
@@ -296,6 +313,7 @@
     font-size: 1rem;
   }
 }
+
 /* Force stop buttons inside the sound-buttons container to be red */
 .sound-buttons .stop-btn {
   background-color: #f87171 !important;
