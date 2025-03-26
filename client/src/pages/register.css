@@ -1,0 +1,184 @@
+/* Global Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Minimal base styles for html/body */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #f9f9f9;
+}
+
+/* 1) Full-screen gradient background container */
+.register-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* so logo is on top, then background + form below */
+  align-items: center;
+  justify-content: flex-start;
+  /* push form down from the top if desired */
+  background: linear-gradient(135deg, #00008b, #3bfeff);
+  padding: 20px;
+}
+
+/* 2) Logo at the top */
+.register-logo {
+  max-width: 250px;
+  margin-bottom: 20px;
+}
+
+/* 3) A container to center the white form */
+.register-background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px;
+}
+
+/* 4) The white "widget" form styling */
+.register-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 900px;
+}
+
+/* Title (centered) */
+.register-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+/* Section Title (e.g. "User Information") */
+.section-title {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+  color: #333;
+  text-align: center; /* center these section headings too, if desired */
+}
+
+/* 
+  Common form field styling
+  We'll make each label+input pair a flex column, 
+  centered horizontally.
+*/
+.form-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;     /* center label + input horizontally */
+  width: 75%;             /* reduce field width so they don't stretch entire form */
+  margin: 0 auto 15px;    /* center each block and add bottom spacing */
+}
+
+/* Normal label styling for single fields (Username, Email, etc.) */
+.form-label {
+  font-size: 1.1rem;
+  color: #000;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: center; /* center label text */
+}
+
+/* For multi-column checkbox groups */
+.columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  gap: 8px; /* space between columns & rows */
+  margin-left: 10vw; /* keep your offset if you like it, or remove if you want them fully centered */
+}
+
+/* Make the "question" label (e.g., "Preferred Method of Workout") bigger & brand-colored */
+.columns .form-label {
+  font-size: 1.3rem;
+  color: #00008b;
+  margin-bottom: 10px;
+  grid-column: 1 / -1; /* span both columns, so label is full width */
+  text-align: center;    /* label text left-aligned for the columns heading */
+  margin-left: -11vw;
+}
+
+/* Input & select styling */
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #fff;
+  text-align: center; /* center user text if you want (optional) */
+}
+
+/* Radio group styling (Sex) - keep them horizontally centered */
+.radio-group {
+  display: flex;
+  gap: 30px;
+  margin-top: 5px;
+  justify-content: center; /* centers radio buttons horizontally */
+}
+
+/* Checkboxes */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 1rem; /* slightly smaller than question label */
+  color: #333;
+}
+
+.checkbox-container input[type="checkbox"] {
+  accent-color: #00008b; /* brand color for the checkbox */
+  margin-right: 10px;
+}
+
+/* Register Button using brand color */
+.register-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #00008b; /* Deep blue */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+
+.register-button:hover {
+  background-color: #3bfeff; /* Switch to cyan on hover */
+  color: #000; /* Switch text to black for contrast */
+}
+
+/* Bottom link to login */
+.register-login {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.login-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
