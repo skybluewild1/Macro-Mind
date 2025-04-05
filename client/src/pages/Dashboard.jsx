@@ -88,7 +88,9 @@ export default function Dashboard() {
                     <div className="track-button">
                         <button onClick={() => navigate("/TrackCals")}>Track Your Calories</button>
                     </div>
-
+                    <div className="track-button">
+                        <button onClick={() => navigate("/Workouts")}>Your Workouts</button>
+                    </div>
                 </div>
             ) : (
                 <p className="no-user">Please log in to see your dashboard.</p>

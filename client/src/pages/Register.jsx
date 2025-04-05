@@ -24,6 +24,9 @@ export default function Register() {
     level: "",
     diet: [],
     activity: "",
+    premadeWorkouts: [],
+    customWorkouts: []
+
   });
 
   const handleCheckboxChange = (e, field) => {
@@ -57,6 +60,8 @@ export default function Register() {
       level,
       diet,
       activity,
+      premadeWorkouts, 
+      customWorkouts,
     } = data;
     try {
       const response = await axios.post("/register", {
@@ -73,6 +78,8 @@ export default function Register() {
         level,
         diet,
         activity,
+        premadeWorkouts,
+        customWorkouts,
       });
       if (response.data.error) {
         toast.error(response.data.error);
@@ -91,6 +98,8 @@ export default function Register() {
           level: "",
           diet: [],
           activity: "",
+          premadeWorkouts: [],
+          customWorkouts: []
         });
         toast.success("Registration successful. Welcome!");
         navigate("/login");

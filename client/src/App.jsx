@@ -9,7 +9,7 @@ import {Toaster} from 'react-hot-toast'
 import { UserContextProvider } from '../context/userContext';
 import Dashboard from "./pages/Dashboard";
 import TrackCals from "./pages/TrackCals";
-//import Workouts from "./pages/Workouts";
+import Workouts from "./pages/Workouts";
 import MuscleModel from './muscleModel/MuscleModel';
 import Motivation from './pages/Motivation';
 axios.defaults.baseURL = 'http://localhost:8000';
@@ -26,6 +26,7 @@ function App() {
        <Route path='/login' element = {<Login />} />
        <Route path='/dashboard' element = {<Dashboard />} />
        <Route path="/trackcals" element={<TrackCals />} />
+       <Route path="/workouts" element={<Workouts />} />
        <Route path="/muscle-model" element={<MuscleModel />} />
        <Route path="/motivation" element={<Motivation />} />
       </Routes>   

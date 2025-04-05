@@ -17,8 +17,19 @@ const userSchema = new Schema({
     equipment: [String],
     level: String,
     diet: [String],
-    activity: Number
-
+    activity: Number,
+    premadeWorkouts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'preWorkouts'
+    }],
+    customWorkouts: [{
+        name: String,
+        exercises: [{
+            name: String, // or exerciseId: ObjectId
+            sets: Number,
+            reps: Number
+        }]
+    }]
 })
 
 const userModel = mongoose.model('User', userSchema);
