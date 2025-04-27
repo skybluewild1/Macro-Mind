@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Exercise = require('../models/Exercise');  // <-- Import the Exercise model
+//const Exercise = require('../models/Exercise');  // <-- Import the Exercise model
 const PreWorkout = require('../models/preWorkouts');  // Adjust path if needed
 
 // GET all premade workouts
@@ -17,6 +17,7 @@ router.get('/premadeWorkouts', async (req, res) => {
 
 router.get('/premadeWorkouts/:id', async (req, res) => {
     try {
+        //const Exercise = mongoose.model('Exercise', exerciseSchema);
         const workout = await PreWorkout.findById(req.params.id)
             .populate({
                 path: 'exercises.exercise',

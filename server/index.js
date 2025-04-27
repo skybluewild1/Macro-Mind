@@ -31,6 +31,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/', require('./routes/authRoutes'));
 app.use('/api/food', require('./routes/foodRoutes'));
 app.use('/api', require('./routes/premadeWorkoutRoutes'));
+app.use('/api', require('./routes/userRoutes'));
+require('./models/Exercise');
 
 const port = 8000;
 app.listen(port, () => console.log(`Server is running on port ${port}`));

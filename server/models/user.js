@@ -20,7 +20,7 @@ const userSchema = new Schema({
     activity: Number,
     premadeWorkouts: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'preWorkouts'
+        ref: 'PreWorkout'
     }],
     customWorkouts: [{
         name: String,
