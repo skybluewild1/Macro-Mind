@@ -24,7 +24,7 @@ export default function Workouts() {
     // Fetch saved workouts
     useEffect(() => {
         if (user) {
-            axios.get('/api/savedWorkouts')  // Your endpoint for saved workouts
+            axios.get(`/api/savedWorkouts/${user._id}`)  // endpoint for saved workouts
                 .then(({ data }) => setSavedWorkouts(data))
                 .catch(error => console.error("Error fetching saved workouts:", error));
         }
@@ -45,23 +45,28 @@ export default function Workouts() {
         <div className="workouts-container">
             <h2>Welcome to your Workouts!</h2>
 
-            {/* Saved Workouts */}
-            <div className="section">
-                <h3>Your Saved Workouts</h3>
-                <div className="workouts-grid">
-                    {savedWorkouts.length ? savedWorkouts.map(workout => (
-                        <div key={workout._id} className="workout-card">
-                            <h4>{workout.name}</h4>
-                            <p>{workout.description}</p>
-                        </div>
-                    )) : <p>No saved workouts yet.</p>}
-                </div>
-            </div>
-
             {/* Action Buttons */}
             <div className="actions">
                 <button onClick={handleBrowsePremade}>Browse Premade Workouts</button>
                 <button onClick={() => navigate('/create-workout')}>Create New Workout</button>
+            </div>
+
+            {/* Saved Workouts */}
+            <div className="section">
+                <h3>Your Saved Workouts</h3>
+                <div className="workouts-grid">
+                {savedWorkouts.length ? savedWorkouts.map(workout => (
+                    <div 
+                        key={workout._id} 
+                        className="workout-card" 
+                        onClick={() => navigate(`/premade-workouts/${workout._id}`)}  // Navigate on click
+                        style={{ cursor: 'pointer' }}
+                    >
+                        <h4>{workout.name}</h4>
+                        <p>{workout.description}</p>
+                    </div>
+                )) : <p>No saved workouts yet.</p>}
+                </div>
             </div>
 
             {/* Premade Workouts Modal */}
