@@ -12,6 +12,8 @@ import TrackCals from "./pages/TrackCals";
 import Workouts from "./pages/Workouts";
 import MuscleModel from './muscleModel/MuscleModel';
 import Motivation from './pages/Motivation';
+import PremadeWorkoutDetails from './pages/PremadeWorkoutDetails';
+
 axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = true;
 //creates the routes to the pages
@@ -29,6 +31,7 @@ function App() {
        <Route path="/workouts" element={<Workouts />} />
        <Route path="/muscle-model" element={<MuscleModel />} />
        <Route path="/motivation" element={<Motivation />} />
+       <Route path="/premade-workouts/:id" element={<PremadeWorkoutDetails />} />
       </Routes>   
     </UserContextProvider>
   )

@@ -1,21 +1,15 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
 
-const premadeWorkoutSchema = new Schema({
+const preWorkoutSchema = new mongoose.Schema({
     name: String,
     description: String,
     difficulty: String,
-    exercises: [
-        {
-          exercise: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Exercise'
-          },
-          sets: String,
-          reps: String
-        }
-      ]
-});
+    exercises: [{
+        exercise: { type: mongoose.Schema.Types.ObjectId, ref: 'Exercise' },  // reference to Exercise collection
+        sets: String,
+        reps: String
+    }]
+}, { collection: 'PremadeWorkouts' });  // <-- force the collection name to match your DB
 
-const preWorkoutsModel = mongoose.model('preWorkouts', premadeWorkoutSchema);
-module.exports = preWorkoutsModel;
+//module.exports = mongoose.model('PreWorkout', preWorkoutSchema);
+module.exports = mongoose.model('PreWorkout', preWorkoutSchema);
