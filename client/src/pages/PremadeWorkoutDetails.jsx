@@ -30,9 +30,7 @@ export default function PremadeWorkoutDetails() {
         })
         .then(res => {
             alert(res.data.message);
-            // Refetch user profile
-            axios.get('/profile')
-                .then(({ data }) => setUser(data));  // Update context with fresh user data
+            navigate('/workouts');  // Redirect after saving
         })
         .catch(err => console.error('Error saving workout:', err));
     };

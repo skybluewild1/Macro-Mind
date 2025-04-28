@@ -11,6 +11,8 @@ export default function Workouts() {
     const [savedWorkouts, setSavedWorkouts] = useState([]);
     const [showPremade, setShowPremade] = useState(false);
     const [premadeWorkouts, setPremadeWorkouts] = useState([]);
+    const [savedPremadeWorkouts, setSavedPremadeWorkouts] = useState([]);
+    const [customWorkouts, setCustomWorkouts] = useState([]);
 
     // Fetch user profile
     useEffect(() => {
@@ -24,8 +26,11 @@ export default function Workouts() {
     // Fetch saved workouts
     useEffect(() => {
         if (user) {
-            axios.get(`/api/savedWorkouts/${user._id}`)  // endpoint for saved workouts
-                .then(({ data }) => setSavedWorkouts(data))
+            axios.get(`/api/savedWorkouts/${user._id}`)
+                .then(({ data }) => {
+                    setSavedPremadeWorkouts(data.premadeWorkouts);
+                    setCustomWorkouts(data.customWorkouts);
+                })
                 .catch(error => console.error("Error fetching saved workouts:", error));
         }
     }, [user]);
@@ -52,20 +57,29 @@ export default function Workouts() {
             </div>
 
             {/* Saved Workouts */}
+            {/* Premade Workouts */}
             <div className="section">
-                <h3>Your Saved Workouts</h3>
+                <h3>Your Saved Premade Workouts</h3>
+                    <div className="workouts-grid">
+                    {savedPremadeWorkouts.length ? savedPremadeWorkouts.map(workout => (
+                        <div key={workout._id} className="workout-card" onClick={() => navigate(`/premade-workouts/${workout._id}`)} style={{ cursor: 'pointer' }}>
+                            <h4>{workout.name}</h4>
+                                <p>{workout.description}</p>
+                        </div>
+                    )) : <p>No saved premade workouts yet.</p>}
+                </div>
+            </div>
+
+            {/* Custom Workouts */}
+            <div className="section">
+                <h3>Your Custom Workouts</h3>
                 <div className="workouts-grid">
-                {savedWorkouts.length ? savedWorkouts.map(workout => (
-                    <div 
-                        key={workout._id} 
-                        className="workout-card" 
-                        onClick={() => navigate(`/premade-workouts/${workout._id}`)}  // Navigate on click
-                        style={{ cursor: 'pointer' }}
-                    >
-                        <h4>{workout.name}</h4>
-                        <p>{workout.description}</p>
-                    </div>
-                )) : <p>No saved workouts yet.</p>}
+                    {customWorkouts.length ? customWorkouts.map((workout, idx) => (
+                        <div key={idx} className="workout-card">
+                            <h4>{workout.name}</h4>
+                            <p>{workout.exercises.length} exercises</p>
+                        </div>
+                    )) : <p>No custom workouts yet.</p>}
                 </div>
             </div>
 
@@ -88,6 +102,22 @@ export default function Workouts() {
                     </div>
                 </div>
             )}
+            <button 
+                onClick={() => navigate('/dashboard')} 
+                style={{
+                    position: 'fixed', 
+                    bottom: '20px', 
+                    right: '20px',
+                    padding: '0.75rem 1.5rem', 
+                    borderRadius: '25px', 
+                    backgroundColor: '#4CAF50', 
+                    color: 'white', 
+                    border: 'none',
+                    boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
+                }}
+            >
+                Back to Dashboard
+            </button>
         </div>
     );
 }

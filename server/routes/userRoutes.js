@@ -30,7 +30,10 @@ router.get('/savedWorkouts/:userId', async (req, res) => {
         const user = await User.findById(req.params.userId)
             .populate('premadeWorkouts');  // Populates workout details
 
-        res.json(user.premadeWorkouts);  // Send the populated workouts
+            res.json({
+                premadeWorkouts: user.premadeWorkouts,
+                customWorkouts: user.customWorkouts
+            });
     } catch (error) {
         console.error('Error fetching saved workouts:', error);
         res.status(500).json({ message: 'Server error' });
@@ -51,6 +54,24 @@ router.post('/removeSavedWorkout', async (req, res) => {
         res.json({ message: 'Workout removed successfully' });
     } catch (error) {
         console.error('Error removing workout:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+router.post('/saveCustomWorkout', async (req, res) => {
+    const { userId, workoutName, exercises } = req.body;
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        // Add the new custom workout
+        user.customWorkouts.push({ name: workoutName, exercises });
+        await user.save();
+
+        res.json({ message: 'Custom workout saved successfully' });
+    } catch (error) {
+        console.error('Error saving custom workout:', error);
         res.status(500).json({ message: 'Server error' });
     }
 });

@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./models/Exercise');
 const express = require('express');
 const cors = require('cors');
 const { mongoose } = require('mongoose');
@@ -32,7 +33,7 @@ app.use('/', require('./routes/authRoutes'));
 app.use('/api/food', require('./routes/foodRoutes'));
 app.use('/api', require('./routes/premadeWorkoutRoutes'));
 app.use('/api', require('./routes/userRoutes'));
-require('./models/Exercise');
+app.use('/api', require('./routes/exerciseRoutes'));
 
 const port = 8000;
 app.listen(port, () => console.log(`Server is running on port ${port}`));
