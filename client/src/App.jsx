@@ -14,6 +14,8 @@ import MuscleModel from './muscleModel/MuscleModel';
 import Motivation from './pages/Motivation';
 import PremadeWorkoutDetails from './pages/PremadeWorkoutDetails';
 import CreateWorkout from './pages/CreateWorkout';
+import CustomWorkoutDetails from './pages/CustomWorkoutDetails';
+//import { CustomWorkoutDetails } from './pages/CustomWorkoutDetails';
 
 axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = true;
@@ -34,6 +36,7 @@ function App() {
        <Route path="/motivation" element={<Motivation />} />
        <Route path="/premade-workouts/:id" element={<PremadeWorkoutDetails />} />
        <Route path="/create-workout" element={<CreateWorkout />} />
+       <Route path="/custom-workouts/:userId/:workoutId" element={<CustomWorkoutDetails />} />
       </Routes>   
     </UserContextProvider>
   )

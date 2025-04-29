@@ -76,4 +76,60 @@ router.post('/saveCustomWorkout', async (req, res) => {
     }
 });
 
+router.get('/customWorkouts/:userId/:workoutId', async (req, res) => {
+    try {
+      const user = await User.findById(req.params.userId);
+      const workout = user.customWorkouts.id(req.params.workoutId);
+      if (!workout) {
+        return res.status(404).json({ message: 'Workout not found' });
+      }
+      res.json(workout);
+    } catch (error) {
+      console.error('Error fetching custom workout:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
+
+router.post('/removeCustomWorkout', async (req, res) => {
+    const { userId, workoutId } = req.body;
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        // Manual filter: keep all workouts except the one being removed
+        user.customWorkouts = user.customWorkouts.filter(
+            (workout) => workout._id.toString() !== workoutId
+        );
+
+        await user.save();
+
+        res.json({ message: 'Workout removed successfully' });
+    } catch (error) {
+        console.error('Error removing custom workout:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+router.post('/updateCustomWorkout', async (req, res) => {
+    const { userId, workoutId, updatedWorkout } = req.body;
+  
+    try {
+      const user = await User.findById(userId);
+      if (!user) return res.status(404).json({ message: 'User not found' });
+  
+      const workout = user.customWorkouts.id(workoutId);
+      if (!workout) return res.status(404).json({ message: 'Workout not found' });
+  
+      workout.name = updatedWorkout.name;
+      workout.exercises = updatedWorkout.exercises;
+  
+      await user.save();
+      res.json({ message: 'Workout updated successfully' });
+    } catch (error) {
+      console.error('Error updating workout:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  });
+
 module.exports = router;

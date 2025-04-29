@@ -74,12 +74,17 @@ export default function Workouts() {
             <div className="section">
                 <h3>Your Custom Workouts</h3>
                 <div className="workouts-grid">
-                    {customWorkouts.length ? customWorkouts.map((workout, idx) => (
-                        <div key={idx} className="workout-card">
-                            <h4>{workout.name}</h4>
-                            <p>{workout.exercises.length} exercises</p>
-                        </div>
-                    )) : <p>No custom workouts yet.</p>}
+                {customWorkouts.length ? customWorkouts.map((workout, idx) => (
+                    <div 
+                        key={workout._id} 
+                        className="workout-card" 
+                        onClick={() => navigate(`/custom-workouts/${user._id}/${workout._id}`)}
+                        style={{ cursor: 'pointer' }}
+                    >
+                        <h4>{workout.name}</h4>
+                        {workout.description && <p style={{ marginTop: '0.5rem' }}>{workout.description}</p>}
+                    </div>
+                )) : <p>No custom workouts yet.</p>}
                 </div>
             </div>
 

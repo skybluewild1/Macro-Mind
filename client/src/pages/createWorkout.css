@@ -126,3 +126,26 @@
       grid-template-columns: repeat(2, 1fr);  /* 2 columns on smaller screens */
     }
 }
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem; /* Space between inputs */
+    margin-bottom: 1.5rem;
+}
+
+.workout-name-input {
+    width: 300px;
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.workout-description-input {
+    width: 400px;
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    resize: none; /* prevent dragging */
+}

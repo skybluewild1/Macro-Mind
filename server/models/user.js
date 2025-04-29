@@ -23,7 +23,11 @@ const userSchema = new Schema({
         ref: 'PreWorkout'
     }],
     customWorkouts: [{
-        name: String,
+        name: {
+            type: String,
+            required: true  // Enforce workout name
+        },
+        description: { type: String },
         exercises: [{
             name: String, // or exerciseId: ObjectId
             sets: Number,

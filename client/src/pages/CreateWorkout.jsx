@@ -13,6 +13,8 @@ export default function CreateWorkout() {
     const [customExercise, setCustomExercise] = useState({ name: '', sets: '', reps: '' });
     const [showCustomExerciseForm, setShowCustomExerciseForm] = useState(false);
     const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState('');
+    const [workoutDescription, setWorkoutDescription] = useState('');
 
     useEffect(() => {
         axios.get('/api/exercises')
@@ -37,20 +39,35 @@ export default function CreateWorkout() {
     };
 
     const handleSaveWorkout = () => {
+        if (!workoutName.trim()) {
+            setErrorMessage('Please enter a workout name.');
+            return;
+        }
+        if (selectedExercises.length === 0) {
+            setErrorMessage('Please add at least one exercise.');
+            return;
+        }
+    
+        setErrorMessage('');  // Clear error if valid
+    
         axios.post('/api/saveCustomWorkout', {
             userId: user._id,
             workoutName,
+            description: workoutDescription,
             exercises: selectedExercises.map(ex => ({
-                name: ex.Name,
+                name: ex.Name || ex.name,  // handles both db & custom exercises
                 sets: ex.sets,
                 reps: ex.reps
             }))
         })
-        .then(res => {
+        .then(() => {
             alert('Workout saved!');
-            navigate('/workouts');  // Redirect after save
+            navigate('/workouts');
         })
-        .catch(err => console.error('Error saving workout:', err));
+        .catch(err => {
+            console.error('Error saving workout:', err);
+            setErrorMessage('Failed to save workout. Please try again.');
+        });
     };
 
     return (
@@ -63,6 +80,13 @@ export default function CreateWorkout() {
                     value={workoutName} 
                     onChange={(e) => setWorkoutName(e.target.value)} 
                     className="workout-name-input"
+                />
+                <textarea 
+                    placeholder="Input Workout Description" 
+                    value={workoutDescription} 
+                    onChange={(e) => setWorkoutDescription(e.target.value)} 
+                    className="workout-description-input"
+                    rows={4}
                 />
             </div>
 
@@ -148,7 +172,23 @@ export default function CreateWorkout() {
                 </div>
             ))}
 
-            <button onClick={handleSaveWorkout} className="save-btn">Save Workout</button>
+            <button 
+                onClick={handleSaveWorkout}
+                style={{
+                    backgroundColor: (!workoutName.trim() || selectedExercises.length === 0) ? 'gray' : '#4CAF50',
+                    cursor: (!workoutName.trim() || selectedExercises.length === 0) ? 'not-allowed' : 'pointer',
+                    color: 'white',
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '25px',
+                    border: 'none'
+                }}
+            >
+                Save Workout
+            </button>
+
+            {errorMessage && (
+                <p style={{ color: 'red', marginTop: '0.5rem' }}>{errorMessage}</p>
+            )}
 
             <button 
                 onClick={() => navigate('/workouts')} 

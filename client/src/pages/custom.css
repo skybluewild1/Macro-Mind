@@ -1,0 +1,99 @@
+.workout-details {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.exercise-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.exercise-list li, .exercise-card, .selected-exercise {
+    background: #efefef;
+    padding: 1rem;
+    border-radius: 8px;
+    min-width: 120px;
+    text-align: center;
+}
+
+.selected-exercise input {
+    width: 50px;
+    margin: 0 0.25rem;
+}
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background-color: orange;
+    color: white;
+}
+
+.remove-btn {
+    background-color: red;
+    color: white;
+}
+
+.save-btn {
+    background-color: green;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: gray;
+    color: white;
+}
+
+.back-btn {
+    background-color: #4CAF50;
+    color: white;
+    margin-top: 3rem;
+    padding: 0.75rem 2rem;
+    border-radius: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input-group {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.workout-name-input {
+    width: 80%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.workout-description-textarea {
+    width: 80%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical; /* allow user to resize if needed */
+}
