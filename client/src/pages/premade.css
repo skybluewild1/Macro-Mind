@@ -1,32 +1,207 @@
-.workout-details {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Full page container for single workout */
+.premade-workout-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    padding: 40px 20px;
+    color: white;
+    font-family: 'Inter', sans-serif;
     text-align: center;
 }
 
-.workout-details h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
+/* Shared style for both workout details and modal */
+.workout-details,
+.modal-content {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    width: 90%;
+    max-width: 700px;
+    padding: 30px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    overflow-y: auto;
+    max-height: 85vh;
 }
 
-.workout-details p {
-    font-size: 1.1rem;
-    margin: 0.5rem 0;
+/* Workout title */
+.workout-details h2,
+.modal-content h3 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
 }
 
+/* Workout description and difficulty */
+.workout-details p,
+.modal-content p {
+    font-size: 1.2rem;
+    margin: 10px 0;
+}
+
+/* Exercise list styling */
 .exercise-list {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
+    margin-top: 20px;
 }
 
-.exercise-list li {
-    background: #f5f5f5;
-    margin: 0.5rem 0;
-    padding: 0.75rem;
-    border-radius: 8px;
+.exercise-list li,
+.modal-content .workout-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 15px 0;
     text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1.1rem;
+}
+
+.exercise-list li:hover,
+.modal-content .workout-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+.exercise-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.exercise-item {
+    background: rgba(255, 255, 255, 0.08);
+    margin: 10px 0;
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.exercise-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.exercise-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.exercise-sets-reps {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+
+/* Buttons */
+.workout-buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.action-button {
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-size: 1em;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s;
+    color: white;
+}
+
+.add-button {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+}
+
+.add-button:hover {
+    background: linear-gradient(135deg, #0072ff, #00c6ff);
+    transform: scale(1.05);
+}
+
+.remove-button {
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+}
+
+.remove-button:hover {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    transform: scale(1.05);
+}
+
+/* Modal styles (outer) */
+.modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    padding: 20px;
+}
+
+/* Close button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    color: white;
+    border: none;
+    padding: 0.5rem 0.8rem;
+    border-radius: 50%;
+    font-size: 1.1em;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.close-btn:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+}
+.difficulty-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    margin-left: 8px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    color: white;
+}
+
+/* Beginner = Green */
+.difficulty-badge.beginner {
+    background: linear-gradient(135deg, #28a745, #218838);
+}
+
+/* Intermediate = Yellow */
+.difficulty-badge.intermediate {
+    background: linear-gradient(135deg, #ffc107, #e0a800);
+    color: black;
+}
+
+/* Advanced = Red */
+.difficulty-badge.advanced {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .workout-details,
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+    }
 }

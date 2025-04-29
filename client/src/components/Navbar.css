@@ -1,32 +1,93 @@
-/* Navbar styling */
+/* Main navbar container */
 .navbar {
   position: sticky;
   top: 0;
-  left: 0;
-  width: 100;
-  background: rgba(48, 48, 48, 0.7); /* Semi-transparent black */
-  padding: 15px 20px;
+  width: 100%;
+  background: linear-gradient(90deg, #0d1321, #1e3c72);
+  color: white;
+  padding: 10px 30px;
+  z-index: 1000;
+  font-family: 'Inter', sans-serif;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Top row with brand on left, hamburger on right (desktop hides hamburger) */
+.navbar-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  backdrop-filter: blur(10px); /* Adds a slight blur effect */
-  z-index: 1000;
 }
 
-.nav-links {
-  list-style: none;
-  display: flex;
-  padding: 2em;
-  /* gap: 1em; */
-}
-
-.nav-links li a {
-  text-decoration: none;
-  color: rgb(255, 255, 255) !important;
+/* Brand logo/text */
+.brand {
   font-weight: bold;
-  transition: color 0.3s;
+  font-size: 1.3rem;
 }
 
-.nav-links li a:hover {
-  color: #010083 !important;
+/* Hamburger icon (hidden on desktop) */
+.menu-toggle {
+  font-size: 1.8rem;
+  cursor: pointer;
+  display: none;
+  user-select: none;
+}
+
+/* Link list */
+.nav-links {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  list-style: none;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Each link */
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #00c6ff;
+}
+
+/* --- Mobile responsive styles --- */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+  }
+
+  .navbar-row {
+    width: 100%;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 10px;
+    gap: 10px;
+    display: none;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-link {
+    font-size: 1.2rem;
+    padding: 5px 0;
+  }
 }
