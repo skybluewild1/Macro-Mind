@@ -1,0 +1,250 @@
+.track-cals-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    padding: 40px 20px;
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Main container */
+.food-search-container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    padding: 30px;
+    margin: 30px auto;
+    border-radius: 20px;
+    width: 80%;
+    max-width: 800px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Title Styling */
+.food-search-title {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* Search bar and button */
+.food-search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.food-search-input {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1em;
+    width: 300px;
+    max-width: 80%;
+    background: #111;
+    color: white;
+}
+
+.food-search-button {
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    font-size: 1em;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.food-search-button:hover {
+    background: linear-gradient(135deg, #0072ff, #00c6ff);
+}
+
+/* Results list */
+.food-results {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+/* Each food item row */
+.food-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+}
+
+/* Left side: image + name */
+.food-item-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-align: left;
+}
+
+.food-item-content img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Right side: "+" button */
+.add-quantity-button {
+    background: #4caf50;
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 50%;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.add-quantity-button:hover {
+    background: #45a049;
+}
+
+/* Selected food details */
+.food-details {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.08);
+    text-align: center;
+}
+
+.food-details img {
+    width: 80px;
+    height: 80px;
+    margin: 10px 0;
+}
+
+/* Modal */
+.quantity-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 30px;
+    border-radius: 20px;
+    z-index: 999;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+.quantity-input,
+.unit-selector {
+    width: 80%;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 10px;
+    border: none;
+}
+
+/* Modal buttons */
+.submit-quantity-button,
+.close-modal-button {
+    margin: 10px 5px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    font-size: 1em;
+    cursor: pointer;
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: white;
+    transition: background 0.3s ease;
+}
+
+.submit-quantity-button:hover,
+.close-modal-button:hover {
+    background: linear-gradient(135deg, #0072ff, #00c6ff);
+}
+
+/* Your added products */
+/* Added Products Container */
+.added-products-container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    padding: 25px;
+    margin: 40px auto;
+    border-radius: 20px;
+    width: 80%;
+    max-width: 800px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Header for added products */
+.added-products-container h2 {
+    font-size: 1.8em;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* List for products */
+.added-products-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.added-product-item {
+    background: rgba(255, 255, 255, 0.08);
+    margin: 10px 0;
+    padding: 15px 20px;
+    border-radius: 12px;
+    text-align: left;
+    font-size: 1em;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Error message */
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .food-search-container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .food-search-bar {
+        flex-direction: column;
+    }
+
+    .food-search-input {
+        width: 100%;
+    }
+
+    .food-item {
+        flex-direction: row;
+    }
+
+    .quantity-modal {
+        width: 90%;
+    }
+
+    .added-products-container {
+        width: 90%;
+        padding: 20px;
+    }
+}
