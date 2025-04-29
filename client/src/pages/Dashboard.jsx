@@ -25,11 +25,11 @@ function calcMaintCals(sex, weight, height, age, activity) {
 }
 
 export default function Dashboard() {
-    const {user, setUser} = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [calories, setCalories] = useState(0); // Total calorie count
     const [macros, setMacros] = useState({ protein: 0, carbs: 0, fat: 0 }); // Macronutrient tracker
-    const [maintenanceCalories, setMaintenanceCalories] = useState(null); 
+    const [maintenanceCalories, setMaintenanceCalories] = useState(null);
 
     useEffect(() => {
         if (!user) {
@@ -42,8 +42,8 @@ export default function Dashboard() {
                     console.error("Error fetching user data:", error);
                 });
         }
-    }, []);  // This useEffect only runs once
-    
+    }, []); // This useEffect only runs once
+
     // New useEffect: Recalculate `maintenanceCalories` when `user` updates
     useEffect(() => {
         if (user && user.sex && user.weight && user.height && user.age && user.activity) {
@@ -57,17 +57,18 @@ export default function Dashboard() {
         <div className="dashboard-container">
             <h1 className="dashboard-title">Welcome to Your Dashboard</h1>
             {user ? (
-                <div className="user-card">
-                    <h2 className="greeting">Hi {user.username}!</h2>
-                    <p className="user-info">You are all set to track your progress and goals.</p>
+                <div className="dashboard-content">
+                    <div className="user-card">
+                        <h2 className="greeting">Hi {user.username}!</h2>
+                        <p className="user-info">You are all set to track your progress and goals.</p>
 
-                    {/* Display Maintenance Calories */}
-                    <div className="calorie-info">
-                         <h3>Your Daily Maintenance Calories:</h3>
-                         <p>{maintenanceCalories ? `${maintenanceCalories} cal/day` : "Loading..."}</p>
-                     </div>
- 
-                     {/* Radial Wheel Progress Tracker now shows their intake / maintenance calories */}
+                        {/* Display Maintenance Calories */}
+                        <div className="calorie-info">
+                            <h3>Your Daily Maintenance Calories:</h3>
+                            <p>{maintenanceCalories ? `${maintenanceCalories} cal/day` : "Loading..."}</p>
+                        </div>
+                    </div>
+
                     <div className="radial-slider-container">
                         <h2 className="radial-slider-title">Progress</h2>
                         <div className="radial-wheel">
@@ -83,13 +84,13 @@ export default function Dashboard() {
                         <p className="progress-info">Protein: {macros.protein}g</p>
                         <p className="progress-info">Carbs: {macros.carbs}g</p>
                         <p className="progress-info">Fat: {macros.fat}g</p>
-                    </div>
 
-                    <div className="track-button">
-                        <button onClick={() => navigate("/TrackCals")}>Track Your Calories</button>
-                    </div>
-                    <div className="track-button">
-                        <button onClick={() => navigate("/Workouts")}>Your Workouts</button>
+                        <div className="track-button">
+                            <button onClick={() => navigate("/TrackCals")}>Track Your Calories</button>
+                        </div>
+                        <div className="track-button">
+                            <button onClick={() => navigate("/Workouts")}>Your Workouts</button>
+                        </div>
                     </div>
                 </div>
             ) : (

@@ -1,77 +1,81 @@
-/* General styles for the dashboard container */
+/* General dashboard layout */
 .dashboard-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(to bottom right, #3e3e3e, #242424);
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
   color: white;
-  padding: 20px;
+  padding: 40px 60px;
   font-family: 'Inter', sans-serif;
 }
 
 .dashboard-title {
-  font-size: 2.5em;
-  font-weight: 700;
-  margin-bottom: 20px;
+  font-size: 3em;
+  font-weight: 800;
+  margin-bottom: 30px;
   text-align: center;
 }
 
+/* Horizontal wrapper for user card and progress wheel */
+.dashboard-content {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 1200px;
+  flex-wrap: wrap;
+}
+
+/* User card section */
 .user-card {
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 20px;
-  border-radius: 12px;
-  width: 80%;
-  max-width: 500px;
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 20px;
   text-align: center;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  min-width: 300px;
+  max-width: 500px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .greeting {
   font-size: 2em;
-  margin: 10px 0;
+  margin: 15px 0;
 }
 
 .user-info {
-  font-size: 1.2em;
-  color: #aaa;
-  margin-top: 10px;
+  font-size: 1.1em;
+  color: #cfcfcf;
+  margin-top: 5px;
 }
 
-.no-user {
+.calorie-info h3 {
+  margin: 20px 0 5px;
   font-size: 1.5em;
-  color: #e0e0e0;
-  text-align: center;
 }
 
-/* Content wrapper to separate food search and radial wheel */
-.content-wrapper {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 30px;
-}
-
-/* Food section container */
-.food-section-container {
-  width: 60%;
-}
-
-/* Radial Wheel Styles */
+/* Radial section */
 .radial-slider-container {
-  width: 35%;
-  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 300px;
+  max-width: 500px;
 }
 
 .radial-wheel {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
-  border: 10px solid rgba(255, 255, 255, 0.3);
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5));
-  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.1);
+  border: 10px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 20px;
+  overflow: hidden;
 }
 
 .radial-wheel-background {
@@ -80,9 +84,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: #4caf50;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
   border-radius: 50%;
-  transition: transform 0.3s ease;
 }
 
 .radial-wheel-fill {
@@ -91,7 +94,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 255, 0, 0.5);
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
   transform: rotate(0deg);
@@ -101,54 +104,54 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 20px;
-  height: 20px;
-  background-color: #fff;
+  width: 16px;
+  height: 16px;
+  background-color: #ffffff;
   border-radius: 50%;
-  cursor: pointer;
   transform: translate(-50%, -50%);
 }
 
-/* Macros display styles */
-.macros-display {
+.progress-info {
+  font-size: 1em;
+  color: #dddddd;
+  margin: 4px 0;
+}
+
+/* Buttons */
+.track-button {
   margin-top: 10px;
-  color: #fff;
-  font-size: 1.2em;
 }
 
-.food-search-container {
-  padding: 15px;
-  border-radius: 12px;
-  background-color: rgba(255, 255, 255, 0.1);
-  width: 100%;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+.track-button button {
+  margin: 6px;
+  padding: 10px 25px;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s;
 }
 
-/* Food search and results styles... (keep your existing styles) */
+.track-button button:hover {
+  background: linear-gradient(135deg, #0072ff, #00c6ff);
+  transform: scale(1.05);
+}
 
-/* Responsive Design */
+/* Responsive for mobile */
 @media (max-width: 768px) {
-  .dashboard-title {
-    font-size: 2em;
-  }
-
-  .user-card {
-    width: 90%;
-    padding: 15px;
-  }
-
-  .content-wrapper {
+  .dashboard-content {
     flex-direction: column;
     align-items: center;
   }
 
-  .radial-slider-container {
-    width: 80%;
-    margin-top: 30px;
+  .dashboard-title {
+    font-size: 2em;
   }
 
-  .food-section-container {
-    width: 100%;
+  .user-card,
+  .radial-slider-container {
+    width: 90%;
   }
 }
