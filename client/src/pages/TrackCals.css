@@ -105,11 +105,11 @@
   }
   
   .food-item {
-    background: #fff4c4;
+    background: rgba(255, 255, 255, 0.52);
     padding: 1rem;
     border-radius: 10px;
     text-align: center;
-    border: 1px solid #ffca28;color: #222;
+    border: 1px solid #a1a1a1;color: #222;
     font-weight: 600;
     
   }
