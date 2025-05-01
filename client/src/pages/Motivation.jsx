@@ -156,9 +156,9 @@ const Motivation = () => {
   const [audio] = useState(new Audio());
   const playSound = (type) => {
     let src = "";
-    if (type === "rain") src = "/sounds/rain.mp3";
-    if (type === "waves") src = "/sounds/waves.mp3";
-    if (type === "forest") src = "/sounds/forest.mp3";
+    if (type === "rain") src = "./sounds/rain.mp3";
+    if (type === "waves") src = "./sounds/waves.mp3";
+    if (type === "forest") src = "./sounds/forest.mp3";
     if (src) {
       audio.src = src;
       audio.loop = true;
