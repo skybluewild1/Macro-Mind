@@ -25,17 +25,16 @@ router.get('/exercises/:id', async (req, res) => {
     }
 });
 
-// Optional: Add new exercise (admin use)
-// router.post('/exercises', async (req, res) => {
-//     const { Name, Type, MuscleGroups, Style } = req.body;
-//     try {
-//         const newExercise = new Exercise({ Name, Type, MuscleGroups, Style });
-//         await newExercise.save();
-//         res.status(201).json({ message: 'Exercise added successfully', exercise: newExercise });
-//     } catch (error) {
-//         console.error('Error adding exercise:', error);
-//         res.status(500).json({ message: 'Server error' });
-//     }
-// });
+// GET exercises by muscle group
+router.get('/exercises/muscle/:group', async (req, res) => {
+    const muscleGroup = req.params.group;
+    try {
+      const exercises = await Exercise.find({ MuscleGroups: muscleGroup });
+      res.json(exercises);
+    } catch (error) {
+      console.error('Error fetching exercises for muscle group:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+});
 
 module.exports = router;
