@@ -6,6 +6,7 @@ const { mongoose } = require('mongoose');
 const cookieParser = require('cookie-parser');
 const app = express();
 const userRoutes = require('./routes/userRoutes');
+const calorieRoutes = require('./routes/calorieRoutes');
 
 // Database connection
 /*mongoose.connect(process.env.MONGO_URL)
@@ -35,6 +36,7 @@ app.use('/api/food', require('./routes/foodRoutes'));
 app.use('/api', require('./routes/premadeWorkoutRoutes'));
 app.use('/api', require('./routes/userRoutes'));
 app.use('/api', require('./routes/exerciseRoutes'));
+app.use('/api', require('./routes/calorieRoutes'));
 
 const port = 8000;
 app.listen(port, () => console.log(`Server is running on port ${port}`));
