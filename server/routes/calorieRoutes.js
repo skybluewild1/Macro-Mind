@@ -81,4 +81,29 @@ router.post('/calories/remove', async (req, res) => {
   }
 });
 
+// Remove an entry
+router.delete('/calories/:userId/:date/:entryId', async (req, res) => {
+  const { userId, date, entryId } = req.params;
+
+  try {
+    const record = await DailyCalorie.findOne({ userId, date });
+    if (!record) {
+      return res.status(404).json({ message: 'Log not found' });
+    }
+
+    const entryIndex = record.entries.findIndex(e => e._id.toString() === entryId);
+    if (entryIndex === -1) {
+      return res.status(404).json({ message: 'Entry not found' });
+    }
+
+    record.entries.splice(entryIndex, 1);
+    await record.save();
+
+    res.json({ message: 'Entry removed successfully' });
+  } catch (err) {
+    console.error('Error removing entry:', err);
+    res.status(500).json({ message: 'Server error while removing entry' });
+  }
+});
+
 module.exports = router;

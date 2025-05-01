@@ -23,6 +23,19 @@ export default function TrackCals() {
   const [logExists, setLogExists] = useState(false);
   const navigate = useNavigate();
 
+  const fetchLog = async () => {
+    try {
+      const res = await axios.get(`/api/calories/${user._id}/${today}`);
+      if (res.data && Array.isArray(res.data.entries)) {
+        setUserProducts(res.data.entries);
+        setLogExists(true);
+      }
+    } catch (err) {
+      console.error("Failed to fetch updated log:", err);
+    }
+  };
+  
+
   useEffect(() => {
     if (user) {
       axios.get(`/api/calories/${user._id}/${today}`)
@@ -90,7 +103,7 @@ export default function TrackCals() {
       entry: entryPayload
     })
       .then(() => {
-        setUserProducts(prev => [...prev, entryPayload]);
+        fetchLog();
         setNewEntry({ name: '', calories: '', protein: '', carbs: '', fat: '' });
         toast.success("Entry added successfully!");
       })
@@ -123,9 +136,10 @@ export default function TrackCals() {
 
   const handleDeleteEntry = (entryId) => {
     axios.delete(`/api/calories/${user._id}/${today}/${entryId}`)
-      .then(() => setUserProducts(prev => prev.filter(item => item._id !== entryId)))
+      .then(() => fetchLog())
       .catch(err => console.error("Failed to delete entry:", err));
   };
+  
 
   const handleFoodSelect = async (ingredientId) => {
     try {
@@ -202,7 +216,6 @@ export default function TrackCals() {
       fat: totalFat.toFixed(2),
     };
 
-    setUserProducts((prev) => [...prev, newProduct]);
     axios.post('/api/calories/add', {
       userId: user._id,
       date: today,
@@ -214,10 +227,14 @@ export default function TrackCals() {
         fat: parseFloat(totalFat)
       }
     })
-      .catch(err => console.error("Error saving entry:", err));
-    setQuantity("");
-    setUnit("");
-    setQuantityModal(false);
+    .then(() => {
+      fetchLog();
+      setQuantityModal(false); // ✅ close after successful save
+    })
+    .catch(err => {
+      console.error("Error saving entry:", err);
+      toast.error("Failed to add entry.");
+    });
 
     // ✅ Update user context so dashboard can reflect totals
     setUser((prev) => ({
@@ -242,14 +259,25 @@ export default function TrackCals() {
 
         {logExists && userProducts.length > 0 ? (
           <ul className="calorie-log">
-            {userProducts.map((entry, idx) => (
-              <li key={idx}>
-                <strong>{entry.name}</strong> – {entry.calories} kcal
-                <div>
-                  Protein: {Math.round(entry.protein)}g | Carbs: {Math.round(entry.carbs)}g | Fat: {Math.round(entry.fat)}g
-                </div>
-              </li>
-            ))}
+{userProducts.map((entry, idx) => (
+  <li key={entry._id || idx}>
+    <div className="entry-row">
+      <div>
+        <strong>{entry.name}</strong> – {entry.calories} kcal
+        <div>
+          Protein: {Math.round(entry.protein)}g | Carbs: {Math.round(entry.carbs)}g | Fat: {Math.round(entry.fat)}g
+        </div>
+      </div>
+      <button
+        onClick={() => handleDeleteEntry(entry._id)}
+        className="delete-entry-button"
+      >
+        🗑
+      </button>
+    </div>
+  </li>
+))}
+
           </ul>
         ) : (
           <p>No entries yet. Start logging!</p>
