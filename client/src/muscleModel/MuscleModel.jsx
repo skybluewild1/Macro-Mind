@@ -31,7 +31,7 @@ const MuscleModel = () => {
 
   useEffect(() => {
     if (selectedMuscle) {
-      const group = encodeURIComponent(selectedMuscle.group); // properly encode
+      const group = encodeURIComponent(selectedMuscle.group); 
       const apiUrl = `http://localhost:8000/api/exercises/muscle/${group}`;
   
       console.log("Fetching from:", apiUrl);
@@ -41,16 +41,16 @@ const MuscleModel = () => {
         .then(async res => {
           const text = await res.text();
           try {
-            const json = JSON.parse(text); // manually parse
+            const json = JSON.parse(text); 
             setFetchedExercises(json);
           } catch (e) {
-            console.error("❌ Failed to parse JSON:", e);
+            console.error("Failed to parse JSON:", e);
             console.error("Raw response was:", text);
             throw new Error("Response was not valid JSON");
           }
         })
         .catch(err => {
-          console.error("🚨 Error fetching exercises:", err);
+          console.error("Error fetching exercises:", err);
         });
     }
   }, [selectedMuscle]);
@@ -118,15 +118,15 @@ const MuscleModel = () => {
   };
 
   // Maps workout type to YouTube video links
-  const getWorkoutVideoLink = (type) => {
-    const links = {
-      "Calisthenics": "https://youtu.be/xJiD2j1gRBs?si=EDVSQquozk7T_Cz0",
-      "Machine": "https://www.youtube.com/watch?v=Xx2MAc_sMRc",
-      "Free Weight": "https://youtu.be/FGy6JDIltx8?si=0F-JedyTwxPet3Qe",
-      "Bands": "https://www.youtube.com/watch?v=R5MGxRSkfNc",
-    };
-    return links[type] || "#";
-  };
+  // const getWorkoutVideoLink = (type) => {
+  //   const links = {
+  //     "Calisthenics": "https://youtu.be/xJiD2j1gRBs?si=EDVSQquozk7T_Cz0",
+  //     "Machine": "https://www.youtube.com/watch?v=Xx2MAc_sMRc",
+  //     "Free Weight": "https://youtu.be/FGy6JDIltx8?si=0F-JedyTwxPet3Qe",
+  //     "Bands": "https://www.youtube.com/watch?v=R5MGxRSkfNc",
+  //   };
+  //   return links[type] || "#";
+  // };
 
   // Render muscle info box and workout/stretching options
   const renderInfoBox = (side) => (
@@ -166,11 +166,15 @@ const MuscleModel = () => {
       {/* Workout video selector if workouts are chosen */}
       {selectedOption === "workouts" && (
         <div className="option-content" ref={workoutRef}>
-          <h4>Exercises for {selectedMuscle.group}</h4>
+          <h4>{selectedMuscle.group} Workouts – Click to view demo videos</h4>
           <ul className="exercise-list">
             {fetchedExercises.length > 0 ? (
               fetchedExercises.map((ex, idx) => (
-                <li key={idx}>
+                <li
+                  key={idx}
+                  onClick={() => window.open("https://www.youtube.com/@MacroMind-k8o", "_blank")}
+                  style={{ cursor: "pointer" }}
+                >
                   <strong>{ex.Name}</strong> – {ex.Sets}, {ex.Reps}<br />
                   <em>{ex.Description}</em>
                 </li>
@@ -213,10 +217,10 @@ const MuscleModel = () => {
                 const isHighlighted = selectedMuscle && muscle.group === selectedMuscle.group;
                 return (
                   <div
-                    key={`${muscle.name}-${index}`} // ✅ unique key
+                    key={`${muscle.name}-${index}`} // unique key
                     className={`muscle-region 
-        ${isHighlighted ? "highlighted" : ""} 
-        ${!showMuscles ? "transparent-mode" : ""}`}
+                    ${isHighlighted ? "highlighted" : ""} 
+                    ${!showMuscles ? "transparent-mode" : ""}`}
                     style={{
                       left: muscle.x,
                       top: muscle.y,
