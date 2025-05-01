@@ -1,15 +1,28 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/userContext"; // adjust path if needed
 import './Navbar.css';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen(!menuOpen);
+  const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+
+  const handleBrandClick = () => {
+    if (user) {
+      navigate("/dashboard");
+    } else {
+      navigate("/");
+    }
+  };
 
   return (
     <nav className="navbar">
       <div className="navbar-row">
-        <div className="brand">MacroMind</div>
+        <div className="brand" onClick={handleBrandClick} style={{ cursor: 'pointer' }}>
+          MacroMind
+        </div>
         <div className="menu-toggle" onClick={toggleMenu}>☰</div>
       </div>
 
