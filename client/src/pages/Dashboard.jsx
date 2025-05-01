@@ -3,6 +3,7 @@ import { UserContext } from "../../context/userContext";
 import "./Dashboard.css"; // Importing CSS for styling
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import PieChartMacro from "../components/PieChartMacro"; // adjust path as needed
 
 // function to calculate the user's unique maintenance calories using the Mifflin-St Jeor equation
 function calcMaintCals(sex, weight, height, age, activity) {
@@ -31,6 +32,8 @@ export default function Dashboard() {
     const [macros, setMacros] = useState({ protein: 0, carbs: 0, fat: 0 }); // Macronutrient tracker
     const [maintenanceCalories, setMaintenanceCalories] = useState(null);
 
+    console.log("Macros state:", macros);
+
     useEffect(() => {
         if (!user) {
             axios.get('/profile')
@@ -53,6 +56,31 @@ export default function Dashboard() {
         }
     }, [user]); // Runs every time `user` changes
 
+    useEffect(() => {
+        if (user) {
+            const today = new Date().toISOString().split('T')[0];
+
+            axios.get(`/api/calories/${user._id}/${today}`)
+                .then(({ data }) => {
+                    const entries = data.entries || [];
+
+                    const totals = entries.reduce(
+                        (acc, entry) => ({
+                            protein: acc.protein + (entry.protein || 0),
+                            carbs: acc.carbs + (entry.carbs || 0),
+                            fat: acc.fat + (entry.fat || 0),
+                            calories: acc.calories + (entry.calories || 0),
+                        }),
+                        { protein: 0, carbs: 0, fat: 0, calories: 0 }
+                    );
+
+                    setCalories(totals.calories);
+                    setMacros({ protein: totals.protein, carbs: totals.carbs, fat: totals.fat });
+                })
+                .catch(err => console.error("Error loading daily calorie log:", err));
+        }
+    }, [user]);
+
     return (
         <div className="dashboard-container">
             <h1 className="dashboard-title">Welcome to Your Dashboard</h1>
@@ -62,34 +90,31 @@ export default function Dashboard() {
                         <h2 className="greeting">Hi {user.username}!</h2>
                         <p className="user-info">You are all set to track your progress and goals.</p>
 
-                        {/* Display Maintenance Calories */}
+                        {/* Maintenance Calories */}
                         <div className="calorie-info">
                             <h3>Your Daily Maintenance Calories:</h3>
                             <p>{maintenanceCalories ? `${maintenanceCalories} cal/day` : "Loading..."}</p>
+                        </div>
+
+                        {/* Move buttons here */}
+                        <div className="button-row">
+                            <button onClick={() => navigate("/TrackCals")}>Track Your Calories</button>
+                        </div>
+                        <div className="button-row">
+                            <button onClick={() => navigate("/Workouts")}>Your Workouts</button>
                         </div>
                     </div>
 
                     <div className="radial-slider-container">
                         <h2 className="radial-slider-title">Progress</h2>
-                        <div className="radial-wheel">
-                            <div className="radial-wheel-background">
-                                <div
-                                    className="radial-wheel-fill"
-                                    style={{ transform: `rotate(${(calories / maintenanceCalories) * 360}deg)` }}
-                                ></div>
-                                <div className="radial-wheel-handle"></div>
-                            </div>
+                        <div className="macro-chart-wrapper">
+                            <PieChartMacro macros={macros} />
                         </div>
-                        <p className="progress-info">Calories: {calories} / {maintenanceCalories ? `${maintenanceCalories}` : 2000}</p>
-                        <p className="progress-info">Protein: {macros.protein}g</p>
-                        <p className="progress-info">Carbs: {macros.carbs}g</p>
-                        <p className="progress-info">Fat: {macros.fat}g</p>
-
-                        <div className="track-button">
-                            <button onClick={() => navigate("/TrackCals")}>Track Your Calories</button>
-                        </div>
-                        <div className="track-button">
-                            <button onClick={() => navigate("/Workouts")}>Your Workouts</button>
+                        <div className="macro-summary-box">
+                            <p className="progress-info">Calories: {Math.round(calories)} / {maintenanceCalories}</p>
+                            <p className="progress-info">Protein: {Math.round(macros.protein)}g</p>
+                            <p className="progress-info">Carbs: {Math.round(macros.carbs)}g</p>
+                            <p className="progress-info">Fat: {Math.round(macros.fat)}g</p>
                         </div>
                     </div>
                 </div>

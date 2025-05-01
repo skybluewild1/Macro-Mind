@@ -3,6 +3,7 @@ import { UserContext } from "../../context/userContext";
 import { useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
 import "./TrackCals.css";
 
 export default function TrackCals() {
@@ -20,6 +21,7 @@ export default function TrackCals() {
   const today = new Date().toISOString().split('T')[0]; // "2024-07-31"
   //const [logCreated, setLogCreated] = useState(false);
   const [logExists, setLogExists] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -244,7 +246,7 @@ export default function TrackCals() {
               <li key={idx}>
                 <strong>{entry.name}</strong> – {entry.calories} kcal
                 <div>
-                  Protein: {entry.protein}g | Carbs: {entry.carbs}g | Fat: {entry.fat}g
+                  Protein: {Math.round(entry.protein)}g | Carbs: {Math.round(entry.carbs)}g | Fat: {Math.round(entry.fat)}g
                 </div>
               </li>
             ))}
@@ -392,6 +394,12 @@ export default function TrackCals() {
           </div>
         )
       }
+      <button
+        onClick={() => navigate("/dashboard")}
+        className="back-to-dashboard"
+      >
+        Back to Dashboard
+      </button>
     </div >
   )
 }
