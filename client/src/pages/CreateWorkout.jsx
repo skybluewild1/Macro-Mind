@@ -47,15 +47,15 @@ export default function CreateWorkout() {
             setErrorMessage('Please add at least one exercise.');
             return;
         }
-    
-        setErrorMessage('');  // Clear error if valid
-    
+
+        setErrorMessage('');
+
         axios.post('/api/saveCustomWorkout', {
             userId: user._id,
             workoutName,
             description: workoutDescription,
             exercises: selectedExercises.map(ex => ({
-                name: ex.Name || ex.name,  // handles both db & custom exercises
+                name: ex.Name || ex.name,
                 sets: ex.sets,
                 reps: ex.reps
             }))
@@ -74,59 +74,52 @@ export default function CreateWorkout() {
         <div className="create-workout-container">
             <h2>Create New Workout</h2>
             <div className="input-group">
-                <input 
-                    type="text" 
-                    placeholder="Input Workout Name" 
-                    value={workoutName} 
-                    onChange={(e) => setWorkoutName(e.target.value)} 
+                <input
+                    type="text"
+                    placeholder="Input Workout Name"
+                    value={workoutName}
+                    onChange={(e) => setWorkoutName(e.target.value)}
                     className="workout-name-input"
                 />
-                <textarea 
-                    placeholder="Input Workout Description" 
-                    value={workoutDescription} 
-                    onChange={(e) => setWorkoutDescription(e.target.value)} 
+                <textarea
+                    placeholder="Input Workout Description"
+                    value={workoutDescription}
+                    onChange={(e) => setWorkoutDescription(e.target.value)}
                     className="workout-description-input"
                     rows={4}
                 />
             </div>
 
             <div className="button-row">
-                <button 
-                    onClick={() => setShowExercises(!showExercises)} 
-                    className="browse-btn"
-                >
+                <button onClick={() => setShowExercises(!showExercises)} className="browse-btn">
                     {showExercises ? 'Hide Exercises' : 'Browse Exercises'}
                 </button>
-            
-                <button 
-                    onClick={() => setShowCustomExerciseForm(!showCustomExerciseForm)} 
-                    className="browse-btn"
-                >
+                <button onClick={() => setShowCustomExerciseForm(!showCustomExerciseForm)} className="browse-btn">
                     {showCustomExerciseForm ? 'Cancel Custom Exercise' : 'Add Custom Exercise'}
                 </button>
             </div>
 
             {showCustomExerciseForm && (
                 <div className="custom-exercise-form">
-                    <input 
-                        type="text" 
-                        placeholder="Exercise Name" 
+                    <input
+                        type="text"
+                        placeholder="Exercise Name"
                         value={customExercise.name}
                         onChange={(e) => setCustomExercise({ ...customExercise, name: e.target.value })}
                     />
-                    <input 
-                        type="number" 
-                        placeholder="Sets" 
+                    <input
+                        type="number"
+                        placeholder="Sets"
                         value={customExercise.sets}
                         onChange={(e) => setCustomExercise({ ...customExercise, sets: e.target.value })}
                     />
-                    <input 
-                        type="number" 
-                        placeholder="Reps" 
+                    <input
+                        type="number"
+                        placeholder="Reps"
                         value={customExercise.reps}
                         onChange={(e) => setCustomExercise({ ...customExercise, reps: e.target.value })}
                     />
-                    <button 
+                    <button
                         onClick={() => {
                             setSelectedExercises([...selectedExercises, { ...customExercise }]);
                             setCustomExercise({ name: '', sets: '', reps: '' });
@@ -150,37 +143,38 @@ export default function CreateWorkout() {
                 </div>
             )}
 
-
-
             <h3>Selected Exercises</h3>
             {selectedExercises.map((ex, idx) => (
                 <div key={idx} className="selected-exercise">
-                    <strong>{ex.Name || ex.name}</strong>
-                    <input 
-                        type="number" 
-                        placeholder="Sets" 
-                        value={ex.sets} 
-                        onChange={(e) => handleSetDetails(idx, 'sets', e.target.value)} 
-                    />
-                    <input 
-                        type="number" 
-                        placeholder="Reps" 
-                        value={ex.reps} 
-                        onChange={(e) => handleSetDetails(idx, 'reps', e.target.value)} 
-                    />
-                    <button onClick={() => handleRemoveExercise(idx)} className="remove-btn">X</button>
+                    <div className="exercise-content">
+                        <strong>{ex.Name || ex.name}</strong>
+                        <span>Sets: {ex.sets || '-'}</span> | <span>Reps: {ex.reps || '-'}</span>
+                    </div>
+                    <div className="exercise-controls">
+                        <input
+                            type="number"
+                            placeholder="Sets"
+                            value={ex.sets}
+                            onChange={(e) => handleSetDetails(idx, 'sets', e.target.value)}
+                        />
+                        <input
+                            type="number"
+                            placeholder="Reps"
+                            value={ex.reps}
+                            onChange={(e) => handleSetDetails(idx, 'reps', e.target.value)}
+                        />
+                        <button onClick={() => handleRemoveExercise(idx)} className="remove-btn">X</button>
+                    </div>
                 </div>
             ))}
 
-            <button 
+            <button
                 onClick={handleSaveWorkout}
+                className="save-btn"
+                disabled={!workoutName.trim() || selectedExercises.length === 0}
                 style={{
-                    backgroundColor: (!workoutName.trim() || selectedExercises.length === 0) ? 'gray' : '#4CAF50',
-                    cursor: (!workoutName.trim() || selectedExercises.length === 0) ? 'not-allowed' : 'pointer',
-                    color: 'white',
-                    padding: '0.75rem 1.5rem',
-                    borderRadius: '25px',
-                    border: 'none'
+                    backgroundColor: (!workoutName.trim() || selectedExercises.length === 0) ? 'gray' : undefined,
+                    cursor: (!workoutName.trim() || selectedExercises.length === 0) ? 'not-allowed' : undefined,
                 }}
             >
                 Save Workout
@@ -190,20 +184,7 @@ export default function CreateWorkout() {
                 <p style={{ color: 'red', marginTop: '0.5rem' }}>{errorMessage}</p>
             )}
 
-            <button 
-                onClick={() => navigate('/workouts')} 
-                style={{
-                    position: 'fixed', 
-                    bottom: '20px', 
-                    right: '20px',
-                    padding: '0.75rem 1.5rem', 
-                    borderRadius: '25px', 
-                    backgroundColor: '#4CAF50', 
-                    color: 'white', 
-                    border: 'none',
-                    boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
-                }}
-            >
+            <button onClick={() => navigate('/workouts')} className="back-btn">
                 Back to Workouts
             </button>
         </div>

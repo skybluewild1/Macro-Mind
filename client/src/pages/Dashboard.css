@@ -15,6 +15,7 @@
   font-weight: 800;
   margin-bottom: 30px;
   text-align: center;
+  color: white;
 }
 
 /* Horizontal wrapper for user card and progress wheel */
@@ -44,6 +45,7 @@
 .greeting {
   font-size: 2em;
   margin: 15px 0;
+  color: white;
 }
 
 .user-info {

@@ -1,158 +1,173 @@
-.workout-details {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background: rgba(0, 0, 0, 0.35);
+/* Page wrapper */
+.custom-workout-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    padding: 40px 20px;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  /* Glassy container for workout */
+  .workout-details {
+    background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(10px);
     border-radius: 20px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-    text-align: center;
+    width: 90%;
+    max-width: 700px;
+    padding: 30px;
     color: white;
-}
-
-.exercise-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    overflow-y: auto;
+    max-height: 85vh;
+    text-align: center;
+  }
+  
+  /* Workout title */
+  .workout-details h2 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Exercise list */
+  .exercise-list {
     list-style: none;
     padding: 0;
-}
-
-.exercise-list li,
-.exercise-card,
-.selected-exercise {
-    background: rgba(255, 255, 255, 0.08);
-    padding: 1rem;
-    border-radius: 10px;
-    min-width: 140px;
-    color: white;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    transition: transform 0.2s ease, background-color 0.3s ease;
-}
-
-.exercise-card:hover {
-    transform: scale(1.03);
-    background: rgba(255, 255, 255, 0.15);
-    cursor: pointer;
-}
-
-.selected-exercise input {
-    width: 60px;
-    padding: 0.3rem;
-    background: white;
+    margin-top: 20px;
+  }
+  
+  .exercise-list li {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 15px 0;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     color: black;
+    font-size: 1.1rem;
+  }
+  
+  /* Editable exercise item */
+  .selected-exercise {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 1rem;
+    border-radius: 12px;
+    margin: 10px 0;
+    color: black;
+    text-align: left;
+  }
+  
+  /* Inputs for sets and reps */
+  .selected-exercise input {
+    width: 60px;
+    margin-left: 10px;
+    padding: 4px;
+    border-radius: 8px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.button-row {
+  }
+  
+  /* Input and textarea fields */
+  input, textarea {
+    color: black;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+    width: 90%;
+    margin: 10px auto;
+    display: block;
+  }
+  
+  /* Button layout */
+  .button-row {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
+    flex-wrap: wrap;
     margin-top: 2rem;
   }
   
-  .button-row button {
-    min-width: 150px;
-    flex: 1 1 auto;
-  }
-
-button {
+  /* Shared button style */
+  button {
     padding: 0.75rem 1.5rem;
     border: none;
-    border-radius: 25px;
+    border-radius: 20px;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.edit-btn {
+  }
+  
+  /* Individual button colors */
+  .edit-btn, .browse-btn {
     background: orange;
     color: white;
-}
-
-.remove-btn {
-    background: crimson;
+  }
+  
+  .remove-btn {
+    background: red;
     color: white;
-}
-
-.save-btn {
+  }
+  
+  .save-btn {
     background: green;
     color: white;
-}
-
-.cancel-btn {
+  }
+  
+  .cancel-btn {
     background: gray;
     color: white;
-}
-
-.back-btn {
-    background-color: #4CAF50;
+  }
+  
+  .add-btn {
+    background: #00c6ff;
     color: white;
-    padding: 0.75rem 2rem;
+  }
+  
+  .custom-exercise-form input {
+    margin: 5px 0;
+    width: 100%;
+  }
+  
+  /* Floating back button */
+  .back-btn {
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    color: white;
+    font-weight: bold;
+    border: none;
     border-radius: 25px;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-.input-group {
-    margin-bottom: 1rem;
+    padding: 0.75rem 2rem;
+    margin-top: 2rem;
+    display: inline-block;
     text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background 0.3s ease;
+    width: fit-content;
+    max-width: 90%;
 }
 
-.workout-name-input,
-.workout-description-textarea,
-.custom-exercise-form input {
-    width: 80%;
-    max-width: 500px;
-    background: white;
-    color: black;
-    padding: 0.6rem;
-    font-size: 1rem;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    margin: 0.5rem auto;
-    display: block;
+.back-btn:hover {
+    background: linear-gradient(to right, #0072ff, #00c6ff);
 }
 
-.custom-exercise-form {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 1rem;
-    border-radius: 12px;
+/* Ensure it's placed properly in the button row if used */
+.button-row .back-btn {
     margin-top: 1rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
-
-@media (max-width: 768px) {
-    .exercise-list {
-        flex-direction: column;
-        align-items: center;
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .workout-details {
+      width: 95%;
+      padding: 20px;
     }
-
+  
+    input, textarea {
+      width: 100%;
+    }
+  
     .selected-exercise {
-        flex-direction: column;
+      flex-direction: column;
+      align-items: flex-start;
     }
-
-    .back-btn {
-        width: calc(100% - 40px);
-        left: 20px;
-        right: 20px;
-        bottom: 15px;
-        font-size: 1rem;
-    }
-    .button-row {
-        flex-direction: column;
-        align-items: center;
-      }
-    
-      .button-row button {
-        width: 90%;
-        max-width: 300px;
-      }
-    }
+  }
+  
