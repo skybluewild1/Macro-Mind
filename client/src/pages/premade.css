@@ -50,8 +50,7 @@
     margin-top: 20px;
 }
 
-.exercise-list li,
-.modal-content .workout-card {
+.exercise-list li {
     background: rgba(255, 255, 255, 0.712);
     border-radius: 15px;
     padding: 20px;
@@ -62,8 +61,37 @@
     font-size: 1.1rem;
 }
 
+.workout-card{
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 15px 0;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1.1rem;
+    color: white;
+}
+
+.workout-card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+.workout-card p, h4 {
+    color: white;
+}
+
+/* Workout grid container */
+.workout-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    width: 100%;
+    margin-top: 20px;
+}
+
 .exercise-list li:hover,
-.modal-content .workout-card:hover {
+.modal-content {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
